@@ -1,7 +1,5 @@
 const { Pool } = require('pg');
 const { price } = require('../config');
-const pdb = require('../connections/postgres');
-const buyNftKeyboard = require('../utils/buyNftKeyboard');
 const generateRandomKey = require('../utils/generateRandomKey');
 const tonNftList = require('../utils/getNftList');
 
@@ -9,16 +7,28 @@ const buyNftController = (bot) => async (msg, user) => {
   const chatId = msg.chat.id;
 
   try {
-    const pdb = new Pool();
-
     const loadingMsg = await bot.sendMessage(
       chatId,
       '...'
     );
 
+    const availableList = await tonNftList.getNftList();
+
+    if (!availableList?.length) {
+      await bot.deleteMessage(chatId, loadingMsg.message_id);
+      return bot.sendMessage(
+        chatId,
+        `We dont have nft`,
+        {
+          parse_mode: 'HTML',
+        }
+      );
+    }
+
     const randomText = generateRandomKey();
 
-    const walletReq = await pdb.query('select * from verify where tgid=' + chatId)
+    let pdb = new Pool();
+    const walletReq = await pdb.query('select * from verify where tgid=' + chatId);
 
     const wallet = walletReq.rows[0]?.owner;
 

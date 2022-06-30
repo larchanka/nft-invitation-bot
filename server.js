@@ -1,21 +1,18 @@
 require('dotenv').config();
 
-const { invite, ru, en, nft, nftBuy, myNft } = require('./config/actions');
+const { invite, ru, en, nft, nftBuy, myNft, settings, language, wallet } = require('./config/actions');
 const validateAccess = require('./utils/validateAccess');
 const bot = require('./connections/telegram');
 const startController = require('./controllers/start');
 const inviteController = require('./controllers/invite');
 const generalMessageController = require('./controllers/_');
-const languageController = require('./controllers/languageController');
+const languageController = require('./controllers/language');
 const nftCheckConfroller = require('./controllers/nftCheck');
-const walletController = require('./controllers/walletController');
+const walletController = require('./controllers/wallet');
 const buyNftController = require('./controllers/buyNft');
 const verifyTransactions = require('./tasks/verifyTransactions');
 const myNftController = require('./controllers/myNft');
-
-require('./connections/firebase');
-
-require('./connections/postgres');
+const { settingsController, settingsLanguageController, settingsWalletController } = require('./controllers/settings');
 
 bot.onText(/^\/start/, validateAccess(bot, startController));
 
@@ -24,6 +21,8 @@ bot.onText(new RegExp('^' + invite), validateAccess(bot, inviteController));
 bot.onText(new RegExp('^' + nft), validateAccess(bot, nftCheckConfroller));
 
 bot.onText(new RegExp('^' + myNft), validateAccess(bot, myNftController));
+
+bot.onText(new RegExp('^' + settings), validateAccess(bot, settingsController));
 
 bot.onText(new RegExp('^(' + ru + '|' + en + ')'), validateAccess(bot, languageController));
 
@@ -35,14 +34,23 @@ bot.on("callback_query", (callbackQuery) => {
   const msg = callbackQuery.message;
   const command = callbackQuery.data;
 
-  if (command === nftBuy) {
     bot.answerCallbackQuery(callbackQuery.id)
         .then((data) => {
           if (data) {
-            validateAccess(bot, buyNftController)(msg);
+
+          if (command === 'nftBuy') {
+              validateAccess(bot, buyNftController)(msg);
+            }
+          }
+
+          if (command === 'language') {
+            validateAccess(bot, settingsLanguageController)(msg);
+          }
+
+          if (command === 'wallet') {
+            validateAccess(bot, settingsWalletController)(msg);
           }
         });
-  }
 });
 
 verifyTransactions(bot);

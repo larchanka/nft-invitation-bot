@@ -12,15 +12,13 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.1",
-    "firebase": "^9.8.2",
     "node-telegram-bot-api": "^0.57.0",
-    "nodemon": "^2.0.16",
     "pg": "^8.7.3",
     "tonweb": "^0.0.46",
-    "tonweb-mnemonic": "^1.0.1",
-    "uuid": "^8.3.2"
+    "tonweb-mnemonic": "^1.0.1"
   },
   "devDependencies": {
-    "find-unused-exports": "^3.0.0"
+    "find-unused-exports": "^3.0.0",
+    "nodemon": "^2.0.16"
   }
 }

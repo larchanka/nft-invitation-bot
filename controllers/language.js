@@ -21,10 +21,12 @@ const languageController = (bot) => async (msg, match) => {
     bot.sendMessage(chatId, lng === 'ru' ? 'Вы выбрали русский язык' : 'You selected english language', {
       reply_markup: {
         keyboard: inviteKeyboard(chatId),
+        resize_keyboard: true,
+        input_field_placeholder: 'Select action',
       },
     });
 
-    pdb.end();
+    await pdb.end();
 
   } catch(e) {
     console.log(e);

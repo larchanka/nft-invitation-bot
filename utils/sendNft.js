@@ -13,7 +13,7 @@ const tonweb = new TonWeb(
   )
 );
 
-const { NftCollection, NftItem } = TonWeb.token.nft
+const { NftItem } = TonWeb.token.nft
 
 let key, wallet;
 
@@ -31,8 +31,6 @@ const sendNft = async (newOwnerAddress) => {
     const walletAddress = await wallet.getAddress();
 
     const collectionParamsI = collectionParams(walletAddress, NftItem);
-
-    const nftCollection = new NftCollection(tonweb.provider, collectionParamsI);
 
     const availableList = await getNftList();
 

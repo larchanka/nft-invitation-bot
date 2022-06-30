@@ -5,7 +5,7 @@ const buyNftKeyboard = (userId) => {
 
   return [
     [
-      {text: nftBuy, callback_data: nftBuy }
+      {text: nftBuy, callback_data: 'nftBuy' }
     ]
   ]
 }

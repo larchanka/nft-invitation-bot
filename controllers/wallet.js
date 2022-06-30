@@ -20,10 +20,12 @@ const walletController = (bot) => async (msg, match) => {
     bot.sendMessage(chatId, 'TON wallet address saved', {
       reply_markup: {
         keyboard: inviteKeyboard(chatId),
+        resize_keyboard: true,
+        input_field_placeholder: 'Select action',
       },
     });
 
-    pdb.end();
+    await pdb.end();
 
   } catch(e) {
     console.log(e);

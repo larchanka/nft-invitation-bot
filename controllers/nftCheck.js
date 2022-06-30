@@ -4,9 +4,9 @@ const tonNftList = require('../utils/getNftList');
 
 const nftCheckConfroller = (bot) => async (msg) => {
   const chatId = msg.chat.id;
-  const pdb = new Pool();
 
   try {
+    const pdb = new Pool();
     const loadingMsg = await bot.sendMessage(
       chatId,
       '...'
@@ -31,7 +31,7 @@ const nftCheckConfroller = (bot) => async (msg) => {
       }
     );
 
-    pdb.end();
+    await pdb.end();
   } catch(e) {
     console.log(e.toString());
 
