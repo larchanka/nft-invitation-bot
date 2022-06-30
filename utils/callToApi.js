@@ -20,8 +20,6 @@ async function callTonApi(toCall, attempts = 20, delayMs = 100) {
   throw lastError
 }
 
-
-
 function delay(ms) {
   return new Promise((resolve) =>
     setTimeout(() => {

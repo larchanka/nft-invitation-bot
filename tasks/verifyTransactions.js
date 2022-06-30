@@ -1,6 +1,7 @@
 const { Pool } = require('pg');
 const TonWeb = require('tonweb');
 const { price, userExpiration } = require('../config');
+const { buyNftKeyboard } = require('../utils');
 const sendNft = require('../utils/sendNft');
 
 const verifyTransactions = async (bot, repeat = true) => {
