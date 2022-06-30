@@ -12,8 +12,10 @@ const generateUserObject = (sourceData) => {
     tokens: [],
     banned: false,
     banedTo: '',
+    lang: 'en',
+    wallet: '',
   };
-
+  
   const newData = JSON.parse(JSON.stringify(defaultInterface));
   const checked = Object.keys(sourceData).find(key => key in required && !!sourceData[key]);
 

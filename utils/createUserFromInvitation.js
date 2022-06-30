@@ -1,28 +1,41 @@
-const { doc, setDoc, getDoc } = require('firebase/firestore');
-const { db } = require('../connections/firebase');
-const generatUserObject = require('../utils/generateUserObject');
+const { Pool } = require("pg");
 
 const createUserFromInvitation = async (userId, invitedById) => {
   try {
-    const userRawData = doc(db, 'users', String(userId));
-    await setDoc(userRawData, generatUserObject({
-      id: userId,
-      invitedBy: invitedById,
-    }));
-    const userData = await getDoc(userRawData);
-    const invitedUserDoc = doc(db, 'users', String(invitedById));
-    const invitedUserRawData = await getDoc(invitedUserDoc);
-    const invitedUserData = invitedUserRawData.data();
+    const pdb = new Pool();
 
-    await setDoc(invitedUserDoc, {
-      invitations: invitedUserData.invitations - 1,
-    }, { merge : true })
+    await pdb.query(`INSERT INTO users (
+      tgId, 
+      invitedByTgId, 
+      createdAt, 
+      updatedAt, 
+      invitations, 
+      level, 
+      expiresAt, 
+      banned, 
+      lang
+    ) VALUES (
+      ${userId},
+      ${invitedById},
+      ${String(new Date().getTime())},
+      '',
+      0,
+      0,
+      1,
+      ${String(new Date().getTime() + 365 * 24 * 60 * 60 * 1000)}
+      0,
+      ''
+    )`);
+
+    await pdb.query(`
+    UPDATE invitations SET activatedAt=${String(new Date().getTime())}
+    WHERE toTgId=${userId} AND fromTgId=${invitedById};`)
+
+    const userRes = await pdb.query('select * from users where tgid=' + userId + ' and banned!=1');
+
+    await pdb.end();
     
-    if (userData.exists()) {
-      return userData.data();
-    } else {
-      return null
-    }
+    return userRes?.rows[0];
   } catch(e) {
     console.log(e.toString());
 

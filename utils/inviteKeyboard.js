@@ -1,4 +1,4 @@
-const { invite, nft } = require("../config/actions");
+const { invite, nft, myNft } = require("../config/actions");
 
 const inviteKeyboard = (userId) => {
   // check if user is valid for invites
@@ -6,7 +6,8 @@ const inviteKeyboard = (userId) => {
   return [
     [
       {text: invite},
-      {text: nft}
+      {text: nft},
+      {text: myNft}
     ]
   ]
 }

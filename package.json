@@ -1,11 +1,12 @@
 {
   "name": "nft-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "nft-bot+invitations",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server --trace-warnings"
+    "dev": "nodemon server --trace-warnings",
+    "unused": "find-unused-exports"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +15,12 @@
     "firebase": "^9.8.2",
     "node-telegram-bot-api": "^0.57.0",
     "nodemon": "^2.0.16",
+    "pg": "^8.7.3",
+    "tonweb": "^0.0.46",
+    "tonweb-mnemonic": "^1.0.1",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "find-unused-exports": "^3.0.0"
   }
 }

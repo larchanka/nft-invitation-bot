@@ -17,6 +17,7 @@ export interface User {
   tokens: string[],
   updatedAt: string,
   invitations: number,
+  lang?: 'en' | 'ru',
 }
 
 export interface InvitationSourceData {

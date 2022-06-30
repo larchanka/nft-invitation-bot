@@ -1,34 +1,44 @@
-const { doc, setDoc, getDoc } = require('firebase/firestore');
-const { db } = require('../connections/firebase');
-const generateInvitationObject = require('./generateInvitationObject');
-const getInvitedUser = require('./getInvitedUser');
-const getUser = require('./getUser');
+const { Pool } = require("pg");
+const pdb = require("../connections/postgres");
 
 const createInvitation = async (fromId, toId) => {
   try {
-    const userExists = await getUser(toId);
-    const invitedUserExists = await getInvitedUser(toId);
+    const pdb = new Pool();
+    const userRes = await pdb.query('select * from users where tgid=' + toId + ' and banned!=1');
+    const userExists = userRes?.rows[0];
+
+    const inviteRes = await pdb.query('select * from invitations where toTgId=' + toId);
+    const invitedUserExists = inviteRes?.rows[0];
 
     if (!!userExists || !!invitedUserExists) {
       return null;
     }
 
-    const invitationRawData = doc(db, 'invitations', String(toId));
-    await setDoc(invitationRawData, generateInvitationObject({
-      fromId,
-      toId,
-    }));
-    const uinvitationData = await getDoc(invitationRawData);
+    await pdb.query(`INSERT INTO invitations (
+      fromTgId, 
+      toTgId, 
+      createdAt, 
+      expiresAt, 
+      activatedAt
+    ) VALUES (
+      ${fromId},
+      ${toId},
+      ${String(new Date().getTime())},
+      ${String(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)},
+      ''
+    )`);
     
-    if (uinvitationData.exists()) {
-      return uinvitationData.data();
-    } else {
-      return null
-    }
+    await pdb.query(`
+    UPDATE users SET invitations=invitations-1
+    WHERE tgId=${fromId};`);
+
+    await pdb.end();
+
+    return true;
   } catch(e) {
     console.log(e.toString());
 
-    return null;
+    return false;
   }
 }
 

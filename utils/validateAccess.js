@@ -1,23 +1,31 @@
-const createInvitation = require('./createInvitation');
+const { Pool } = require('pg');
 const createUserFromInvitation = require('./createUserFromInvitation');
-const getInvitedUser = require('./getInvitedUser');
-const getUser = require('./getUser');
 
-const validateAccess = (bot, cb, showMessage = true) => async (msg) => {
+const validateAccess = (bot, cb, showMessage = true) => async (msg, match) => {
   const chatId = msg.chat.id;
 
-  let authUser = await getUser(chatId);
-  const invitedUser = await getInvitedUser(chatId);
+  try {
+    const pdb = new Pool();
+    const userRes = await pdb.query('select * from users where tgid=' + chatId + ' and banned!=1');
+    let authUser = userRes?.rows[0];
 
-  if (!authUser && invitedUser) {
-    authUser = await createUserFromInvitation(chatId, invitedUser.fromId);
-  }
+    const inviteRes = await pdb.query('select * from invitations where toTgId=' + chatId);
+    const invitedUser = inviteRes?.rows[0];
 
-  if (authUser) {
-    cb(bot)(msg);
-  } else {
-    if (showMessage)
-      bot.sendMessage(chatId, 'You dont have access');
+    if (!authUser && invitedUser) {
+      authUser = await createUserFromInvitation(chatId, invitedUser.fromid);
+    }
+
+    if (authUser) {
+      cb(bot, authUser)(msg, match);
+    } else {
+      if (showMessage)
+        bot.sendMessage(chatId, 'You dont have access');
+    }
+
+    pdb.end();
+  } catch(e) {
+    console.log('createUserFromInvitation.js Error', e);
   }
 };
 
