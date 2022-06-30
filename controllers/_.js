@@ -1,3 +1,4 @@
+const buyNftKeyboard = require("../utils/buyNftKeyboard");
 const createInvitation = require("../utils/createInvitation");
 const createUserFromInvitation = require("../utils/createUserFromInvitation");
 
@@ -12,7 +13,35 @@ const generalMessageController = (bot, user) => async (msg) => {
       const invitation = await createInvitation(chatId, id);
 
       if (invitation) {
-        await bot.sendMessage(chatId, `Hello ${first_name}. You have been invited to join World of NFTS.\n\nChat with this bot to start @${botInfo.username}`);
+        await bot.sendMessage(
+          chatId, 
+          `@${botInfo.username}\n\nHello ${first_name}. This is the bot you've been invited to`,
+          {
+            reply_markup: {
+              inline_keyboard: [
+                [
+                  {
+                    text: 'Forward',
+                    switch_inline_query: `\n\nHello ${first_name}. This is the bot you've been invited to`
+                  }
+                ]
+              ],
+            },
+          }
+          // {
+          //   replay_markup: {
+          //     inline_keyboard: buyNftKeyboard(chatId),
+          //     // inline_keyboard: [
+          //     //   [
+          //     //     {
+          //     //       text: 'Forward',
+          //     //       callback_data: `pyrogram`
+          //     //     }
+          //     //   ]
+          //     // ]
+          //   }
+          // }
+        );
         await bot.sendMessage(chatId, `Forward message you see above to ${username ? `@${username}` : `the user you just invited`}`);
       } else {
         await bot.sendMessage(chatId, 'User is already invited');
