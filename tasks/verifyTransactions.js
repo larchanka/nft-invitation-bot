@@ -18,40 +18,34 @@ const verifyTransactions = async (bot, repeat = true) => {
         const msg = transaction['message'];
         const source = transaction['source'];
 
-        try {
+        if(Number(TonWeb.utils.fromNano(value)) === price && msg) {
+          const trReq = await pdb.query(`select * from transactions where owner='${source}' and secret='${msg}'`);
 
-          if(Number(TonWeb.utils.fromNano(value)) === price && msg) {
-            const trReq = await pdb.query(`select * from transactions where owner='${source}' and secret='${msg}'`);
+          if (trReq?.rowCount) {
+            const walletReq = await pdb.query(`select * from verify where owner='${source}'`);
 
-            if (trReq?.rowCount) {
-              const walletReq = await pdb.query(`select * from verify where owner='${source}'`);
+            const tgid = walletReq.rows[0]?.tgid;
 
-              const tgid = walletReq.rows[0]?.tgid;
+            const purchase = await sendNft(source);
+            
+            if (purchase) {
+              await pdb.query(`delete from transactions where owner='${source}' and secret='${msg}'`);
+              const uReq = await pdb.query(`select * from verify where owner='${source}'`);
 
-              const purchase = await sendNft(source);
-              
-              if (purchase) {
-                await pdb.query(`delete from transactions where owner='${source}' and secret='${msg}'`);
-                const uReq = await pdb.query(`select * from verify where owner='${source}'`);
+              const nftReq = await fetch(
+                `${process.env.TON_API}v1/nft/getItem?account=${purchase}`);
 
-                const nftReq = await fetch(
-                  `${process.env.TON_API}v1/nft/getItem?account=${purchase}`);
+              const nftData = await nftReq.json();
 
-                const nftData = await nftReq.json();
-
-                if(uReq?.rows[0]) {
-                  console.log(`update users set invitations=invitations+3 expiresAt='${new Date().getTime() + userExpiration * 24 * 60 * 60 * 1000}' where tgid=${uReq.rows[0].tgid}`)
-                  await pdb.query(`update users set invitations=invitations+3, expiresAt='${new Date().getTime() + userExpiration * 24 * 60 * 60 * 1000}' where tgid=${uReq.rows[0].tgid}`)
-                  bot.sendPhoto(uReq.rows[0].tgid, nftData.metadata.image, {
-                    caption: 'You just purchased this NFT',
-                  });
-                }
+              if(uReq?.rows[0]) {
+                console.log(`update users set invitations=invitations+3 expiresAt='${new Date().getTime() + userExpiration * 24 * 60 * 60 * 1000}' where tgid=${uReq.rows[0].tgid}`)
+                await pdb.query(`update users set invitations=invitations+3, expiresAt='${new Date().getTime() + userExpiration * 24 * 60 * 60 * 1000}' where tgid=${uReq.rows[0].tgid}`)
+                bot.sendPhoto(uReq.rows[0].tgid, nftData.metadata.image, {
+                  caption: 'You just purchased this NFT',
+                });
               }
             }
           }
-
-        } catch(e) {
-          console.log('verifyTransactions.js error', e);
         }
       })
     }
