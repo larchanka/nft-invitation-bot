@@ -13,6 +13,7 @@ const buyNftController = require('./controllers/buyNft');
 const verifyTransactions = require('./tasks/verifyTransactions');
 const myNftController = require('./controllers/myNft');
 const { settingsController, settingsLanguageController, settingsWalletController } = require('./controllers/settings');
+const deleteInvitationController = require('./controllers/deleteInvitation');
 
 bot.onText(/^\/start/, validateAccess(bot, startController));
 
@@ -38,17 +39,23 @@ bot.on("callback_query", (callbackQuery) => {
         .then((data) => {
           if (data) {
 
-          if (command === 'nftBuy') {
-              validateAccess(bot, buyNftController)(msg);
+            if (command === 'nftBuy') {
+              return validateAccess(bot, buyNftController)(msg);
             }
-          }
 
-          if (command === 'language') {
-            validateAccess(bot, settingsLanguageController)(msg);
-          }
+            if (command === 'language') {
+              return validateAccess(bot, settingsLanguageController)(msg);
+            }
 
-          if (command === 'wallet') {
-            validateAccess(bot, settingsWalletController)(msg);
+            if (command === 'wallet') {
+              return validateAccess(bot, settingsWalletController)(msg);
+            }
+
+            const deleteInviteMatch = command.match(/^deleteInvite_([0-9]{1,})$/);
+
+            if (deleteInviteMatch) {
+              return validateAccess(bot, deleteInvitationController)(msg, [deleteInviteMatch[1]]);
+            }
           }
         });
 });

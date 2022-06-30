@@ -28,19 +28,6 @@ const generalMessageController = (bot, user) => async (msg) => {
               ],
             },
           }
-          // {
-          //   replay_markup: {
-          //     inline_keyboard: buyNftKeyboard(chatId),
-          //     // inline_keyboard: [
-          //     //   [
-          //     //     {
-          //     //       text: 'Forward',
-          //     //       callback_data: `pyrogram`
-          //     //     }
-          //     //   ]
-          //     // ]
-          //   }
-          // }
         );
         await bot.sendMessage(chatId, `Forward message you see above to ${username ? `@${username}` : `the user you just invited`}`);
       } else {
