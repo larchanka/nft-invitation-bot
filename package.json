@@ -20,5 +20,9 @@
   "devDependencies": {
     "find-unused-exports": "^3.0.0",
     "nodemon": "^2.0.16"
+  },
+  "engines" : { 
+    "npm" : ">=14.0.0",
+    "node" : ">=6.0.0"
   }
 }
