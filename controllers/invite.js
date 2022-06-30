@@ -2,6 +2,7 @@ const { Pool } = require("pg");
 
 const inviteController = (bot, user) => async (msg, replyMsgId) => {
   const chatId = msg.chat.id;
+  const isReply = typeof replyMsgId === 'number';
 
   try {
     const pdb = new Pool();
@@ -26,13 +27,14 @@ const inviteController = (bot, user) => async (msg, replyMsgId) => {
     }
 
     const messageTxt = `
-You have ${user.invitations} invitations.
+You have ${Number(user.invitations) + (isReply ? 1 : 0)} invitations.
 
 ${currentInvitations}${currentinvitationsList.join('')}
 
-${user.invitations > 0 ? 'Forward some message from the user you want to invite' : ''}
+${user.invitations > 0 ? '-----------\n\n<i>Forward some message from the user you want to invite</i>' : ''}
         `;
     const messageOptions = {
+      parse_mode: 'HTML',
       reply_markup: currentinvitationsBtns.length ? {
         inline_keyboard: [
           ...currentinvitationsBtns.map(btn => ([btn]))
@@ -40,7 +42,7 @@ ${user.invitations > 0 ? 'Forward some message from the user you want to invite'
       } : {},
     };
 
-    if (typeof replyMsgId === 'number') {
+    if (isReply) {
       bot.editMessageText(messageTxt, {
         chat_id: chatId, message_id: replyMsgId,
         ...messageOptions

@@ -7,7 +7,7 @@ const deleteInvitationController = (bot, user) => async (msg, match) => {
     const pdb = new Pool();
     await pdb.query(`delete from invitations where totgid=${Number(match)}`);
     await pdb.query(`UPDATE users SET invitations=invitations+1
-    WHERE tgId=${chatId};`);
+    WHERE tgid=${chatId};`);
     await pdb.end();
 
     inviteController(bot, user)(msg, msg.message_id)

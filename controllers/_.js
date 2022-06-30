@@ -1,9 +1,7 @@
-const buyNftKeyboard = require("../utils/buyNftKeyboard");
 const createInvitation = require("../utils/createInvitation");
-const createUserFromInvitation = require("../utils/createUserFromInvitation");
 
 const generalMessageController = (bot, user) => async (msg) => {
-  const {chat: { id: chatId }, forward_from } = msg;
+  const { chat: { id: chatId }, forward_from } = msg;
   const botInfo = await bot.getMe();
 
   if (forward_from?.is_bot === false) {

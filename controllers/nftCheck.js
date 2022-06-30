@@ -24,7 +24,7 @@ const nftCheckConfroller = (bot) => async (msg) => {
     
     bot.sendMessage(
       chatId,
-      availableList.length > 0 ? `We have ${availableList.length} available` : 'No nft', {
+      availableList.length > 0 ? `We have ${availableList.length} NFT available` : 'No nft for sale', {
         reply_markup: {
           inline_keyboard: buyNftKeyboard(chatId),
         },

@@ -30,7 +30,7 @@ const createInvitation = async (fromId, toId) => {
     
     await pdb.query(`
     UPDATE users SET invitations=invitations-1
-    WHERE tgId=${fromId};`);
+    WHERE tgid=${fromId};`);
 
     await pdb.end();
 
