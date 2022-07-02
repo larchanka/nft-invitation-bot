@@ -13,7 +13,7 @@ const validateAccess = (bot, cb, showMessage = true) => async (msg, match) => {
     const invitedUser = inviteRes?.rows[0];
 
     if (!authUser && invitedUser) {
-      authUser = await createUserFromInvitation(chatId, invitedUser.fromid);
+      authUser = await createUserFromInvitation(chatId, invitedUser.fromtgid);
     }
 
     if (authUser) {
