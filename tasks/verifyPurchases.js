@@ -1,26 +1,27 @@
 const { Pool } = require('pg');
+const { amountToBuyForReward, price } = require('../config');
 const sendReturn = require('../utils/sendReturn');
 
 const verifyPurchases = async (bot, repeat = true) => {
   try {
     const pdb = new Pool();
     const now = new Date().getTime();
-    const uDataReq = await pdb.query(`select * from users where expiresAt>=${now}`);
+    const uDataReq = await pdb.query(`select * from users where expiresAt>='${now}'`);
     await pdb.end();
     
     uDataReq.rows.forEach(async (user) => {
       const pdb = new Pool();
-      const purchasesReq = await pdb.query(`select * from purchases where initedByTgId=${user.tgid} and payed=0 and createdAt<=${now}`);
+      const purchasesReq = await pdb.query(`select * from purchases where initedByTgId='${user.tgid}' and payed=0 and createdAt<='${now}'`);
       await pdb.end();
       const totalPurchases = purchasesReq.rowCount;
 
-      if(totalPurchases >= 3) {
+      if(totalPurchases >= amountToBuyForReward) {
         const sendBack = await sendReturn(user.tgid);
 
         if (sendBack) {
-          totalPurchases.rows.forEach(async purchase => {
+          purchasesReq.rows.forEach(async purchase => {
             const pdb = new Pool();
-            await pdb.query(`update purchases set payed=1 where createdAt=${purchase.createdat} and initedByTgId=${user.tgid}`);
+            await pdb.query(`update purchases set payed=1 where createdAt='${purchase.createdat}' and initedByTgId='${user.tgid}'`);
             await pdb.end();
           });
         }

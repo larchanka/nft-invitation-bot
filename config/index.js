@@ -1,6 +1,7 @@
 const config = {
   price: 0.1,
   userExpiration: 7,
+  amountToBuyForReward: 3,
   collectionParams: (walletAddress, NftItem) => ({
     ownerAddress: walletAddress,
     royalty: 0.1,

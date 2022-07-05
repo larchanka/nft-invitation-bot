@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 const TonWeb = require('tonweb');
-const { price, userExpiration } = require('../config');
+const { price, userExpiration, collectionParams } = require('../config');
 const sendNft = require('../utils/sendNft');
 
 const verifyTransactions = async (bot, repeat = true) => {
@@ -31,19 +31,21 @@ const verifyTransactions = async (bot, repeat = true) => {
               const uReq = await pdb.query(`select * from verify where owner='${source}'`);
               await pdb.end();
 
+              console.log({uReq})
+
               const nftReq = await fetch(
                 `${process.env.TON_API}v1/nft/getItem?account=${purchase}`);
 
               const nftData = await nftReq.json();
               
-
               if(uReq?.rows[0]) {
                 const pdb = new Pool();
                 const tgId = uReq.rows[0].tgid;
 
-                const uDataReq = await pdb.query(`select * from users where tgid=${tgId} limit 1`);
-                const invitedByTgId = uDataReq?.rows[0].invitedByTgId;
-                await pdb.query(`update users set invitations=invitations+3, expiresAt=${new Date().getTime() + userExpiration * 24 * 60 * 60 * 1000} where tgid=${tgId}`);
+                const uDataReq = await pdb.query(`select * from users where tgid='${tgId}' limit 1`);
+                const invitedByTgId = uDataReq?.rows[0].invitedbytgid;
+                await pdb.query(`update users set invitations=invitations+3, expiresAt=${new Date().getTime() + userExpiration * 24 * 60 * 60 * 1000} where tgid='${tgId}'`);
+                console.log(`insert into purchases (tgid, initedByTgId, createdAt, payed) values (${tgId}, ${invitedByTgId}, ${new Date().getTime()}, 0)`)
                 await pdb.query(`insert into purchases (tgid, initedByTgId, createdAt, payed) values (${tgId}, ${invitedByTgId}, ${new Date().getTime()}, 0)`);
                 await pdb.end();
 
