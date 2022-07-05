@@ -4,7 +4,7 @@ const config = {
   amountToBuyForReward: 3,
   collectionParams: (walletAddress, NftItem) => ({
     ownerAddress: walletAddress,
-    royalty: 0.1,
+    royalty: 1,
     royaltyAddress: walletAddress,
     collectionContentUri: 'https://sandbox.mobila.name/nft/json/my_collection.json',
     nftItemContentBaseUri: 'https://sandbox.mobila.name/nft/json/',

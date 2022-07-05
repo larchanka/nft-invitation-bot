@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const { amountToBuyForReward, price } = require('../config');
+const { amountToBuyForReward, price, userExpiration } = require('../config');
 const sendReturn = require('../utils/sendReturn');
 
 const verifyPurchases = async (bot, repeat = true) => {
@@ -11,7 +11,13 @@ const verifyPurchases = async (bot, repeat = true) => {
     
     uDataReq.rows.forEach(async (user) => {
       const pdb = new Pool();
-      const purchasesReq = await pdb.query(`select * from purchases where initedByTgId='${user.tgid}' and payed=0 and createdAt<='${now}'`);
+      const purchasesReq = await pdb.query(
+        `select * from purchases 
+          where initedByTgId='${user.tgid}' 
+          and payed='0' 
+          and createdAt<='${Number(user.expiresat)}'
+          and createdAt>'${Number(user.expiresat) - (userExpiration * 24 * 60 * 60 * 1000)}'`
+      );
       await pdb.end();
       const totalPurchases = purchasesReq.rowCount;
 
@@ -21,7 +27,7 @@ const verifyPurchases = async (bot, repeat = true) => {
         if (sendBack) {
           purchasesReq.rows.forEach(async purchase => {
             const pdb = new Pool();
-            await pdb.query(`update purchases set payed=1 where createdAt='${purchase.createdat}' and initedByTgId='${user.tgid}'`);
+            await pdb.query(`update purchases set payed='1' where createdAt='${purchase.createdat}' and initedByTgId='${user.tgid}'`);
             await pdb.end();
           });
         }

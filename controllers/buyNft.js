@@ -40,7 +40,7 @@ const buyNftController = (bot) => async (msg, user) => {
       chatId,
       `
 Send <strong>${price}</strong> TON to \n
-<code>${process.env.SC_WALLET}</code>\n
+<code>${process.env.OWNER}</code>\n
 
 with this description\n
 <code>${randomText}</code>

@@ -46,7 +46,7 @@ const sendNft = async (newOwnerAddress) => {
       wallet.methods.transfer({
         secretKey: key.secretKey,
         toAddress: new TonWeb.utils.Address(randomNft.address),
-        amount: TonWeb.utils.toNano('0'),
+        amount: TonWeb.utils.toNano('0.01'),
         seqno,
         payload: await nftItem.createTransferBody({
           newOwnerAddress: new TonWeb.utils.Address(newOwnerAddress),

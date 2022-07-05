@@ -10,6 +10,7 @@ const createUserFromInvitation = async (userId, invitedById) => {
       createdAt, 
       updatedAt, 
       invitations, 
+      purchases,
       level, 
       expiresAt, 
       banned, 
@@ -18,7 +19,8 @@ const createUserFromInvitation = async (userId, invitedById) => {
       ${userId},
       ${invitedById},
       ${new Date().getTime()},
-      '',
+      0,
+      0,
       0,
       1,
       ${new Date().getTime() + 365 * 24 * 60 * 60 * 1000},
@@ -28,7 +30,7 @@ const createUserFromInvitation = async (userId, invitedById) => {
 
     await pdb.query(`
     UPDATE invitations SET activatedAt=${new Date().getTime()}
-    WHERE toTgId=${userId} AND fromTgId=${invitedById};`)
+    WHERE toTgId=${userId} AND fromTgId=${invitedById};`);
 
     const userRes = await pdb.query('select * from users where tgid=' + userId + ' and banned!=1');
 
