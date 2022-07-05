@@ -14,6 +14,7 @@ const verifyTransactions = require('./tasks/verifyTransactions');
 const myNftController = require('./controllers/myNft');
 const { settingsController, settingsLanguageController, settingsWalletController } = require('./controllers/settings');
 const deleteInvitationController = require('./controllers/deleteInvitation');
+const verifyPurchases = require('./tasks/verifyPurchases');
 
 bot.onText(/^\/start/, validateAccess(bot, startController));
 
@@ -61,3 +62,4 @@ bot.on("callback_query", (callbackQuery) => {
 });
 
 verifyTransactions(bot);
+verifyPurchases(bot);

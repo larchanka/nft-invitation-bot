@@ -23,8 +23,8 @@ const createInvitation = async (fromId, toId) => {
     ) VALUES (
       ${fromId},
       ${toId},
-      ${String(new Date().getTime())},
-      ${String(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)},
+      ${new Date().getTime()},
+      ${new Date().getTime() + 7 * 24 * 60 * 60 * 1000},
       ''
     )`);
     

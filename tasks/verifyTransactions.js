@@ -35,10 +35,16 @@ const verifyTransactions = async (bot, repeat = true) => {
                 `${process.env.TON_API}v1/nft/getItem?account=${purchase}`);
 
               const nftData = await nftReq.json();
+              
 
               if(uReq?.rows[0]) {
                 const pdb = new Pool();
-                await pdb.query(`update users set invitations=invitations+3, expiresAt='${new Date().getTime() + userExpiration * 24 * 60 * 60 * 1000}' where tgid=${uReq.rows[0].tgid}`)
+                const tgId = uReq.rows[0].tgid;
+
+                const uDataReq = await pdb.query(`select * from users where tgid=${tgId} limit 1`);
+                const invitedByTgId = uDataReq?.rows[0].invitedByTgId;
+                await pdb.query(`update users set invitations=invitations+3, expiresAt=${new Date().getTime() + userExpiration * 24 * 60 * 60 * 1000} where tgid=${tgId}`);
+                await pdb.query(`insert into purchases (tgid, initedByTgId, createdAt, payed) values (${tgId}, ${invitedByTgId}, ${new Date().getTime()}, 0)`);
                 await pdb.end();
 
                 bot.sendPhoto(uReq.rows[0].tgid, nftData.metadata.image, {
