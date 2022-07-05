@@ -5,7 +5,6 @@ export interface InlineKeyboard {
 
 export interface Keyboard {
   text: string,
-  callback_data?: string
 }
 
 export function buyNftKeyboard(userId: number): InlineKeyboard[][];
