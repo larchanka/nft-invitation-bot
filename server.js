@@ -16,6 +16,7 @@ const { settingsController, settingsLanguageController, settingsWalletController
 const deleteInvitationController = require('./controllers/deleteInvitation');
 const verifyPurchases = require('./tasks/verifyPurchases');
 
+
 bot.onText(/^\/start/, validateAccess(bot, startController));
 
 bot.onText(new RegExp('^' + invite), validateAccess(bot, inviteController));
@@ -63,3 +64,4 @@ bot.on("callback_query", (callbackQuery) => {
 
 verifyTransactions(bot);
 verifyPurchases(bot);
+

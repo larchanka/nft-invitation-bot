@@ -42,7 +42,7 @@ const verifyTransactions = async (bot, repeat = true) => {
 
                 const uDataReq = await pdb.query(`select * from users where tgid='${tgId}' limit 1`);
                 const invitedByTgId = uDataReq?.rows[0].invitedbytgid;
-                await pdb.query(`update users set invitations=invitations+3, expiresAt=${new Date().getTime() + userExpiration * 24 * 60 * 60 * 1000} where tgid='${tgId}'`);
+                await pdb.query(`update users set invitations=invitations+3, purchases=purchases+1, expiresAt=${new Date().getTime() + userExpiration * 24 * 60 * 60 * 1000} where tgid='${tgId}'`);
                 await pdb.query(`insert into purchases (tgid, initedByTgId, createdAt, payed) values (${tgId}, ${invitedByTgId}, ${new Date().getTime()}, 0)`);
                 await pdb.end();
 

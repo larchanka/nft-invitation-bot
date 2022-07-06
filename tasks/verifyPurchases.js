@@ -12,7 +12,7 @@ const verifyPurchases = async (bot, repeat = true) => {
     uDataReq.rows.forEach(async (user) => {
       const pdb = new Pool();
       const purchasesReq = await pdb.query(
-        `select * from purchases 
+        `select distinct tgid, initedByTgId, createdat, payed from purchases 
           where initedByTgId='${user.tgid}' 
           and payed='0' 
           and createdAt<='${Number(user.expiresat)}'

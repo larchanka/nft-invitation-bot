@@ -18,10 +18,10 @@ const inviteController = (bot, user) => async (msg, replyMsgId) => {
     
     for (let i = 0; i < invitations.length; ++i) {
       const { totgid, expiresat } = invitations[i];
-      const invitedUser = await bot.getChat(totgid);
-      currentinvitationsList.push(`\n- to @${invitedUser.username}, expires at ${new Date(Number(expiresat)).toLocaleDateString()}`);
+      // const invitedUser = await bot.getChat(totgid);
+      currentinvitationsList.push(`\n- to @${totgid}, expires at ${new Date(Number(expiresat)).toLocaleDateString()}`);
       currentinvitationsBtns.push({
-        text: `Delete invite for @${invitedUser.username}`,
+        text: `Delete invite for @${totgid}`,
         callback_data: `deleteInvite_${totgid}`,
       })
     }
@@ -31,7 +31,7 @@ You have ${Number(user.invitations) + (isReply ? 1 : 0)} invitations.
 
 ${currentInvitations}${currentinvitationsList.join('')}
 
-${user.invitations > 0 ? '-----------\n\n<i>Forward some message from the user you want to invite</i>' : ''}
+${user.invitations > 0 ? '-----------\n\n<i>Send me username of the user you want to invite, i.e. `@super_user`</i>' : ''}
         `;
     const messageOptions = {
       parse_mode: 'HTML',

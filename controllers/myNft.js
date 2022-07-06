@@ -6,10 +6,6 @@ const myNftController = (bot, user) => async (msg) => {
   const chatId = msg.chat.id;
 
   try {
-    const loadingMsg = await bot.sendMessage(
-      chatId,
-      '...'
-    );
     const pdb = new Pool();
 
     const walletReq = await pdb.query(`select * from verify where tgid=${chatId}`);
@@ -19,20 +15,24 @@ const myNftController = (bot, user) => async (msg) => {
 
     const nfts = await getUserNfts(wallet);
 
-    await bot.deleteMessage(chatId, loadingMsg.message_id);
-
     if (!nfts.length) {
       return bot.sendMessage(chatId, 'You dont have any NFTs yet');
     }
 
-    return bot.sendMediaGroup(chatId, nfts.filter(nft => nft.image).splice(0,10).map(nft => ({
-      type: 'photo',
-      media: nft.image,
-      caption: nft.name,
-    })));
+    const showNfts = nfts.filter(nft => nft.image);
+    if (showNfts.length) {
+
+      bot.sendMediaGroup(chatId, showNfts.splice(0,10).map(nft => ({
+        type: 'photo',
+        media: nft.image,
+        caption: nft.name,
+      })));
+    } else {
+      bot.sendMessage(chatId, 'Something went wrong. Try again later!');
+    }
 
   } catch(e) {
-    console.log('myNftController.js Error', e);
+    console.log('myNftController.js Error', e.toString());
   }
 }
 

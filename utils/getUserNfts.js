@@ -14,9 +14,9 @@ const getUserNfts = async (address) => {
       .filter(nft => nft.collection_address === colelctionAddress.toString(false))
       .map((nft, idx) => {
         return {
-          image: nft.metadata?.image,
-          name: nft.metadata?.name,
-          address: nft.address,
+          image: nft?.metadata?.image,
+          name: nft?.metadata?.name,
+          address: nft?.address,
         };
       })
   } catch(e) {

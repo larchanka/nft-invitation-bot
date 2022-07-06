@@ -12,8 +12,10 @@
   "license": "BSD",
   "dependencies": {
     "dotenv": "^16.0.1",
+    "input": "^1.0.1",
     "node-telegram-bot-api": "^0.57.0",
     "pg": "^8.7.3",
+    "telegram": "^2.9.8",
     "tonweb": "^0.0.46",
     "tonweb-mnemonic": "^1.0.1"
   },
@@ -21,8 +23,8 @@
     "find-unused-exports": "^3.0.0",
     "nodemon": "^2.0.16"
   },
-  "engines" : { 
-    "npm" : ">=14.0.0",
-    "node" : ">=6.0.0"
+  "engines": {
+    "npm": ">=14.0.0",
+    "node": ">=6.0.0"
   }
 }
