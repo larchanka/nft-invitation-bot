@@ -4,7 +4,7 @@ const generateRandomKey = require('../utils/generateRandomKey');
 const getLanguage = require('../utils/getLanguage');
 const tonNftList = require('../utils/getNftList');
 
-const buyNftController = (bot, user) => async (msg, user) => {
+const buyNftController = (bot, user) => async (msg) => {
   const chatId = msg.chat.id;
   const lang = getLanguage(user);
 
@@ -37,7 +37,7 @@ const buyNftController = (bot, user) => async (msg, user) => {
     await pdb.query(`insert into transactions (secret, owner) values ('${randomText}', '${wallet}')`);
 
     await bot.deleteMessage(chatId, loadingMsg.message_id);
-    
+
     await bot.sendMessage(
       chatId,
       lang.sendTonTo(price, process.env.OWNER, randomText),

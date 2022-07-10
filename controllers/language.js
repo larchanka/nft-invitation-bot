@@ -3,16 +3,19 @@ const { ru } = require("../config/actions");
 const getLanguage = require("../utils/getLanguage");
 const inviteKeyboard = require("../utils/inviteKeyboard");
 
-const languageController = (bot, user) => async (msg, match) => {
+const languageController = (bot) => async (msg, match) => {
   const chatId = msg.chat.id;
   let lng = 'en';
-  const lang = getLanguage(user);
 
   const langCmd = match[0];
 
   if (langCmd === ru) {
     lng = 'ru';
   }
+
+  let lang = getLanguage({
+    lang: lng,
+  });
 
   try {
     const pdb = new Pool();

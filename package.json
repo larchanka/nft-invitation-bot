@@ -6,12 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server --trace-warnings",
+    "prod": "forever server",
     "unused": "find-unused-exports"
   },
   "author": "",
   "license": "BSD",
   "dependencies": {
     "dotenv": "^16.0.1",
+    "forever": "^4.0.3",
     "input": "^1.0.1",
     "node-telegram-bot-api": "^0.57.0",
     "pg": "^8.7.3",
