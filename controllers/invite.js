@@ -1,8 +1,10 @@
 const { Pool } = require("pg");
+const getLanguage = require("../utils/getLanguage");
 
 const inviteController = (bot, user) => async (msg, replyMsgId) => {
   const chatId = msg.chat.id;
   const isReply = typeof replyMsgId === 'number';
+  const lang = getLanguage(user);
 
   try {
     const pdb = new Pool();
@@ -10,7 +12,7 @@ const inviteController = (bot, user) => async (msg, replyMsgId) => {
     const invitationsReq = await pdb.query(`select * from invitations where fromtgid=${chatId} and activatedat=''`);
     await pdb.end();
     const invitations = invitationsReq?.rows || [];
-    const currentInvitations = invitations.length ? 'Your active invites:' : 'You dont have active invites';
+    const currentInvitations = invitations.length ? lang.activeInvites : lang.noActiveInvites;
     
 
     const currentinvitationsList = [];
@@ -19,20 +21,14 @@ const inviteController = (bot, user) => async (msg, replyMsgId) => {
     for (let i = 0; i < invitations.length; ++i) {
       const { totgid, expiresat } = invitations[i];
       // const invitedUser = await bot.getChat(totgid);
-      currentinvitationsList.push(`\n- to @${totgid}, expires at ${new Date(Number(expiresat)).toLocaleDateString()}`);
+      currentinvitationsList.push(lang.inviteTo(totgid, expiresat));
       currentinvitationsBtns.push({
-        text: `Delete invite for @${totgid}`,
+        text: lang.deleteInvite(totgid),
         callback_data: `deleteInvite_${totgid}`,
       })
     }
 
-    const messageTxt = `
-You have ${Number(user.invitations) + (isReply ? 1 : 0)} invitations.
-
-${currentInvitations}${currentinvitationsList.join('')}
-
-${user.invitations > 0 ? '-----------\n\n<i>Send me username of the user you want to invite, i.e. `@super_user`</i>' : ''}
-        `;
+    const messageTxt = lang.yourInvitations(invitations, isReply, currentInvitations, currentinvitationsList);
     const messageOptions = {
       parse_mode: 'HTML',
       reply_markup: currentinvitationsBtns.length ? {

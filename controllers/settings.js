@@ -1,32 +1,36 @@
+const getLanguage = require("../utils/getLanguage");
 const languageKeyboard = require("../utils/languageKeyboard");
 const settingsKeyboard = require("../utils/settingsKeyboard");
 
-const settingsController = (bot) => (msg) => {
+const settingsController = (bot, user) => (msg) => {
   const chatId = msg.chat.id;
+  const lang = getLanguage(user);
 
-  bot.sendMessage(chatId, 'What do you want to change', {
+  bot.sendMessage(chatId, lang.whatToChange, {
     reply_markup: {
-      inline_keyboard: settingsKeyboard(chatId),
+      inline_keyboard: settingsKeyboard(chatId, lang.language, lang.wallet),
     },
   });
 };
 
-const settingsLanguageController = (bot) => (msg) => {
+const settingsLanguageController = (bot, user) => (msg) => {
   const chatId = msg.chat.id;
+  const lang = getLanguage(user);
 
-  bot.sendMessage(chatId, 'Select language', {
+  bot.sendMessage(chatId, lang.selectLang, {
     reply_markup: {
-      keyboard: languageKeyboard(chatId),
+      keyboard: languageKeyboard(chatId, lang.ru, lang.en),
       resize_keyboard: true,
-      input_field_placeholder: 'Select language'
+      input_field_placeholder: lang.selectLang
     },
   });
 };
 
-const settingsWalletController = (bot) => (msg) => {
+const settingsWalletController = (bot, user) => (msg) => {
   const chatId = msg.chat.id;
+  const lang = getLanguage(user);
 
-  bot.sendMessage(chatId, 'Send me your TON Wallet address');
+  bot.sendMessage(chatId, lang.sendWallet);
 };
 
 module.exports = {

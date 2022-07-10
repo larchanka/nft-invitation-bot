@@ -1,6 +1,4 @@
-const { ru, en } = require("../config/actions");
-
-const languageKeyboard = (userId) => {
+const languageKeyboard = (userId, ru, en) => {
   // check if user is valid for invites
 
   return [

@@ -1,9 +1,11 @@
 const { Pool } = require('pg');
 const buyNftKeyboard = require('../utils/buyNftKeyboard');
+const getLanguage = require('../utils/getLanguage');
 const tonNftList = require('../utils/getNftList');
 
-const nftCheckConfroller = (bot) => async (msg) => {
+const nftCheckConfroller = (bot, user) => async (msg) => {
   const chatId = msg.chat.id;
+  const lang = getLanguage(user);
 
   try {
     const pdb = new Pool();
@@ -15,7 +17,7 @@ const nftCheckConfroller = (bot) => async (msg) => {
     const walletReq = await pdb.query('select * from verify where tgid=' + chatId)
 
     if (!walletReq?.rowCount) {
-      return bot.sendMessage(chatId, 'Send me your TON Wallet address');
+      return bot.sendMessage(chatId, lang.sendWallet);
     }
 
     const availableList = await tonNftList.getNftList();
@@ -24,9 +26,9 @@ const nftCheckConfroller = (bot) => async (msg) => {
     
     bot.sendMessage(
       chatId,
-      availableList.length > 0 ? `We have ${availableList.length} NFT available` : 'No nft for sale', {
+      availableList.length > 0 ? lang.weHave(availableList.length) : lang.noFreeNft, {
         reply_markup: {
-          inline_keyboard: buyNftKeyboard(chatId),
+          inline_keyboard: buyNftKeyboard(chatId, lang.nftBuy),
         },
       }
     );

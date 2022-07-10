@@ -1,10 +1,12 @@
 const { Pool } = require("pg");
 const { ru } = require("../config/actions");
+const getLanguage = require("../utils/getLanguage");
 const inviteKeyboard = require("../utils/inviteKeyboard");
 
-const languageController = (bot) => async (msg, match) => {
+const languageController = (bot, user) => async (msg, match) => {
   const chatId = msg.chat.id;
   let lng = 'en';
+  const lang = getLanguage(user);
 
   const langCmd = match[0];
 
@@ -18,11 +20,11 @@ const languageController = (bot) => async (msg, match) => {
     UPDATE users SET lang='${lng}'
     WHERE tgId=${chatId};`)
 
-    bot.sendMessage(chatId, lng === 'ru' ? 'Вы выбрали русский язык' : 'You selected english language', {
+    bot.sendMessage(chatId, lng === 'ru' ? lang.ruSelected : lang.enSelected, {
       reply_markup: {
-        keyboard: inviteKeyboard(chatId),
+        keyboard: inviteKeyboard(chatId, lang.invite, lang.nft, lang.myNft, lang.settings),
         resize_keyboard: true,
-        input_field_placeholder: 'Select action',
+        input_field_placeholder: lang.selectAction,
       },
     });
 

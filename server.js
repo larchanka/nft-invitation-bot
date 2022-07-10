@@ -15,17 +15,19 @@ const myNftController = require('./controllers/myNft');
 const { settingsController, settingsLanguageController, settingsWalletController } = require('./controllers/settings');
 const deleteInvitationController = require('./controllers/deleteInvitation');
 const verifyPurchases = require('./tasks/verifyPurchases');
+const englishLang = require('./config/en');
+const russianLang = require('./config/ru');
 
 
 bot.onText(/^\/start/, validateAccess(bot, startController));
 
-bot.onText(new RegExp('^' + invite), validateAccess(bot, inviteController));
+bot.onText(new RegExp(`^(${englishLang.invite}|${russianLang.invite})`), validateAccess(bot, inviteController));
 
-bot.onText(new RegExp('^' + nft), validateAccess(bot, nftCheckConfroller));
+bot.onText(new RegExp(`^(${englishLang.nft}|${russianLang.nft})`), validateAccess(bot, nftCheckConfroller));
 
-bot.onText(new RegExp('^' + myNft), validateAccess(bot, myNftController));
+bot.onText(new RegExp(`^(${englishLang.myNft}|${russianLang.myNft})`), validateAccess(bot, myNftController));
 
-bot.onText(new RegExp('^' + settings), validateAccess(bot, settingsController));
+bot.onText(new RegExp(`^(${englishLang.settings}|${russianLang.settings})`), validateAccess(bot, settingsController));
 
 bot.onText(new RegExp('^(' + ru + '|' + en + ')'), validateAccess(bot, languageController));
 

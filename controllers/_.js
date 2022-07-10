@@ -4,6 +4,7 @@ const input = require("input");
 const { Api } = require("telegram/tl");
 
 const createInvitation = require("../utils/createInvitation");
+const getLanguage = require("../utils/getLanguage");
 
 const getUserByLink = async (username) => {
   const apiId = 185045;
@@ -36,6 +37,7 @@ const getUserByLink = async (username) => {
 
 const generalMessageController = (bot, user) => async (msg) => {
   const userLinkRegex = new RegExp('^(\@|https://t.me/)([a-zA-Z0-9-_]{3,})$');
+  const lang = getLanguage(user);
 
   const { chat: { id: chatId }, forward_from } = msg;
 
@@ -61,26 +63,26 @@ const generalMessageController = (bot, user) => async (msg) => {
       if (invitation) {
         await bot.sendMessage(
           chatId, 
-          `@${botInfo.username}\n\nHello ${first_name}. This is the bot you've been invited to`,
+          `@${botInfo.username}\n\n${lang.invitation}`,
           {
             reply_markup: {
               inline_keyboard: [
                 [
                   {
-                    text: 'Forward',
-                    switch_inline_query: `\n\nHello${first_name ? ` ${first_name}` : ''}. This is the bot you've been invited to`
+                    text: lang.forward,
+                    switch_inline_query: `@${botInfo.username}\n\n${lang.invitation}`
                   }
                 ]
               ],
             },
           }
         );
-        await bot.sendMessage(chatId, `Forward message you see above to ${username ? `@${username}` : `the user you just invited`}`);
+        await bot.sendMessage(chatId, lang.forwardTo);
       } else {
-        await bot.sendMessage(chatId, 'User is already invited');
+        await bot.sendMessage(chatId, lang.invited);
       }
     } else {
-      await bot.sendMessage(chatId, 'You don\'t have invitations.');
+      await bot.sendMessage(chatId, lang.noInvitations);
     }
   }
 

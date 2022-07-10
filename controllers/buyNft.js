@@ -1,10 +1,12 @@
 const { Pool } = require('pg');
 const { price } = require('../config');
 const generateRandomKey = require('../utils/generateRandomKey');
+const getLanguage = require('../utils/getLanguage');
 const tonNftList = require('../utils/getNftList');
 
-const buyNftController = (bot) => async (msg, user) => {
+const buyNftController = (bot, user) => async (msg, user) => {
   const chatId = msg.chat.id;
+  const lang = getLanguage(user);
 
   try {
     const loadingMsg = await bot.sendMessage(
@@ -18,7 +20,7 @@ const buyNftController = (bot) => async (msg, user) => {
       await bot.deleteMessage(chatId, loadingMsg.message_id);
       return bot.sendMessage(
         chatId,
-        `We dont have nft`,
+        lang.noFreeNft,
         {
           parse_mode: 'HTML',
         }
@@ -38,13 +40,7 @@ const buyNftController = (bot) => async (msg, user) => {
     
     await bot.sendMessage(
       chatId,
-      `
-Send <strong>${price}</strong> TON to \n
-<code>${process.env.OWNER}</code>\n
-
-with this description\n
-<code>${randomText}</code>
-      `,
+      lang.sendTonTo(price, process.env.OWNER, randomText),
       {
         parse_mode: 'HTML',
       }

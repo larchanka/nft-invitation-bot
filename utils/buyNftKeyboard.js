@@ -1,6 +1,4 @@
-const { nftBuy, invite } = require("../config/actions");
-
-const buyNftKeyboard = (userId) => {
+const buyNftKeyboard = (userId, nftBuy) => {
   // check if user is valid for invites
 
   return [

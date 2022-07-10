@@ -1,39 +1,41 @@
+const getLanguage = require('../utils/getLanguage');
 const inviteKeyboard = require('../utils/inviteKeyboard');
 const languageKeyboard = require('../utils/languageKeyboard');
 
 const startController = (bot, user) => async (msg) => {
   const chatId = msg.chat.id;
+  const lang = getLanguage(user);
 
   bot.setMyCommands([
     {
       command: 'start',
       description: 'Main action',
     },
-    {
-      command: 'help',
-      description: 'Help section',
-    },
-    {
-      command: 'about',
-      description: 'About the project',
-    },
+    // {
+    //   command: 'help',
+    //   description: 'Help section',
+    // },
+    // {
+    //   command: 'about',
+    //   description: 'About the project',
+    // },
   ]);
 
   if (!user?.lang) {
-    return bot.sendMessage(chatId, 'Select language', {
+    return bot.sendMessage(chatId, lang.selectLang, {
       reply_markup: {
-        keyboard: languageKeyboard(chatId),
+        keyboard: languageKeyboard(chatId, lang.ru, lang.en),
         resize_keyboard: true,
-        input_field_placeholder: 'Select language'
+        input_field_placeholder: lang.selectLang
       }
     });
   }
 
-  return bot.sendMessage(chatId, 'Select action', {
+  return bot.sendMessage(chatId, lang.selectAction, {
     reply_markup: {
-      keyboard: inviteKeyboard(chatId),
+      keyboard: inviteKeyboard(chatId, lang.invite, lang.nft, lang.myNft, lang.settings),
       resize_keyboard: true,
-      input_field_placeholder: 'Select action',
+      input_field_placeholder: lang.selectAction,
     },
   });
 };

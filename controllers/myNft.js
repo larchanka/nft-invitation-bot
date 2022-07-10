@@ -1,9 +1,11 @@
 const { Pool } = require("pg");
 const { nft } = require("../config/en");
+const getLanguage = require("../utils/getLanguage");
 const getUserNfts = require("../utils/getUserNfts");
 
 const myNftController = (bot, user) => async (msg) => {
   const chatId = msg.chat.id;
+  const lang = getLanguage(user);
 
   try {
     const pdb = new Pool();
@@ -16,7 +18,7 @@ const myNftController = (bot, user) => async (msg) => {
     const nfts = await getUserNfts(wallet);
 
     if (!nfts.length) {
-      return bot.sendMessage(chatId, 'You dont have any NFTs yet');
+      return bot.sendMessage(chatId, lang.noNft);
     }
 
     const showNfts = nfts.filter(nft => nft.image);
@@ -28,7 +30,7 @@ const myNftController = (bot, user) => async (msg) => {
         caption: nft.name,
       })));
     } else {
-      bot.sendMessage(chatId, 'Something went wrong. Try again later!');
+      bot.sendMessage(chatId, lang.somethingWrong);
     }
 
   } catch(e) {

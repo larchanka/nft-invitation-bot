@@ -1,8 +1,10 @@
 const { Pool } = require("pg");
+const getLanguage = require("../utils/getLanguage");
 const inviteKeyboard = require("../utils/inviteKeyboard");
 
-const walletController = (bot) => async (msg, match) => {
+const walletController = (bot, user) => async (msg, match) => {
   const chatId = msg.chat.id;
+  const lang = getLanguage(user);
 
   const address = match[0];
 
@@ -17,11 +19,11 @@ const walletController = (bot) => async (msg, match) => {
       '${address}'
     )`);
 
-    bot.sendMessage(chatId, 'TON wallet address saved', {
+    bot.sendMessage(chatId, lang.walletSaved, {
       reply_markup: {
-        keyboard: inviteKeyboard(chatId),
+        keyboard: inviteKeyboard(chatId, lang.invite, lang.nft, lang.myNft, lang.settings),
         resize_keyboard: true,
-        input_field_placeholder: 'Select action',
+        input_field_placeholder: lang.selectAction,
       },
     });
 
