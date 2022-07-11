@@ -1,7 +1,4 @@
 const TonWeb = require('tonweb');
-const TnMnemonic = require('tonweb-mnemonic');
-const { collectionParams } = require('../config');
-const callTonApi = require('./callToApi');
 
 const tonweb = new TonWeb(
   new TonWeb.HttpProvider(
@@ -11,10 +8,6 @@ const tonweb = new TonWeb(
     }
   )
 );
-
-const { NftItem, NftCollection } = TonWeb.token.nft
-
-let key, wallet;
 
 const getNftList = async () => {
   const availableList = [];

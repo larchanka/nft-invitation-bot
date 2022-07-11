@@ -6,7 +6,7 @@ const getUserNfts = async (address) => {
 
     
     const dataReq = await fetch(
-      `${process.env.TON_API}v1/nft/getItemsByOwnerAddress?account=${address}`);
+    `${process.env.TON_API}v1/nft/getItemsByOwnerAddress?account=${address}`);
 
     const { nft_items } = await dataReq.json();
 

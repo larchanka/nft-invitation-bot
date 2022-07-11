@@ -1,6 +1,5 @@
 const TonWeb = require("tonweb");
 const TnMnemonic = require('tonweb-mnemonic');
-const { collectionParams } = require('../config');
 const callTonApi = require("./callToApi");
 const { getNftList } = require("./getNftList");
 
@@ -27,10 +26,6 @@ const sendNft = async (newOwnerAddress) => {
       publicKey: key.publicKey,
       wc: 0,
     });
-
-    const walletAddress = await wallet.getAddress();
-
-    const collectionParamsI = collectionParams(walletAddress, NftItem);
 
     const availableList = await getNftList();
 
