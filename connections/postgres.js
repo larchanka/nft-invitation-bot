@@ -41,6 +41,34 @@ const initDbs = async () => {
       payed int8 NOT NULL
     );`);
 
+    const usersReq = await db.query('select * from users');
+
+    if (usersReq?.rowCount === 0) {
+      await pdb.query(`INSERT INTO users (
+        tgId, 
+        invitedByTgId, 
+        createdAt, 
+        updatedAt, 
+        invitations, 
+        purchases,
+        level, 
+        expiresAt, 
+        banned, 
+        lang
+      ) VALUES (
+        ${userId},
+        ${invitedById},
+        ${new Date().getTime()},
+        100,
+        0,
+        0,
+        1,
+        ${new Date().getTime() + 4 * 365 * 24 * 60 * 60 * 1000},
+        0,
+        ''
+      )`);
+    }
+
     await db.end()
   } catch(e) {
     console.log('postgres.js Error', { e });

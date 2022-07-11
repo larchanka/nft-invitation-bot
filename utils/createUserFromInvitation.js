@@ -1,4 +1,5 @@
 const { Pool } = require("pg");
+const { userExpiration } = require("../config");
 
 const createUserFromInvitation = async (userId, invitedById) => {
   try {
@@ -23,7 +24,7 @@ const createUserFromInvitation = async (userId, invitedById) => {
       0,
       0,
       1,
-      ${new Date().getTime() + 365 * 24 * 60 * 60 * 1000},
+      ${new Date().getTime() + userExpiration * 24 * 60 * 60 * 1000},
       0,
       ''
     )`);

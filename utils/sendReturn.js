@@ -28,7 +28,7 @@ const sendReturn = async (tgId) => {
 
     key = await TnMnemonic.mnemonicToKeyPair(process.env.MNEMONIC.split(' '));
 
-    const WalletClass = tonweb.wallet.all.v3R2;
+    const WalletClass = tonweb.wallet.all[process.env.WALLET_TYPE];
 
     wallet = new WalletClass(tonweb.provider, {
       publicKey: key.publicKey,
