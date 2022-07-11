@@ -56,8 +56,8 @@ const initDbs = async () => {
         banned, 
         lang
       ) VALUES (
-        ${userId},
-        ${invitedById},
+        ${process.env.DEFAULT_TG_ACCOUNT},
+        ${process.env.DEFAULT_TG_ACCOUNT},
         ${new Date().getTime()},
         100,
         0,
