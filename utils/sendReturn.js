@@ -35,7 +35,7 @@ const sendReturn = async (tgId) => {
       wc: 0,
     });
 
-    if (walletAddress.toString(true, true, true) !== process.env.OWNER) {
+    if (walletAddress?.toString(true, true, true) !== process.env.OWNER) {
 
       const seqno = await callTonApi(wallet.methods.seqno().call);
 
