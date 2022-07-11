@@ -4,10 +4,10 @@ const config = {
   amountToBuyForReward: 3,
   collectionParams: (walletAddress, NftItem) => ({
     ownerAddress: walletAddress,
-    royalty: 1,
+    royalty: 0.88,
     royaltyAddress: walletAddress,
-    collectionContentUri: 'https://sandbox.mobila.name/nft/json/my_collection.json',
-    nftItemContentBaseUri: 'https://sandbox.mobila.name/nft/json/',
+    collectionContentUri: 'https://nft-collection.credu.io/json/0.json',
+    nftItemContentBaseUri: 'https://nft-collection.credu.io/json/',
     nftItemCodeHex: NftItem.codeHex,
   }),
 };
