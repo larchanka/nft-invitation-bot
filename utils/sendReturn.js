@@ -35,17 +35,20 @@ const sendReturn = async (tgId) => {
       wc: 0,
     });
 
-    const seqno = await callTonApi(wallet.methods.seqno().call);
+    if (walletAddress.toString(true, true, true) !== process.env.OWNER) {
 
-    await callTonApi(
-      wallet.methods.transfer({
-        secretKey: key.secretKey,
-        toAddress: new TonWeb.utils.Address(walletAddress),
-        amount: TonWeb.utils.toNano(String(price)),
-        seqno: seqno,
-        payload: '',
-        sendMode: 3,
-    }).send);
+      const seqno = await callTonApi(wallet.methods.seqno().call);
+
+      await callTonApi(
+        wallet.methods.transfer({
+          secretKey: key.secretKey,
+          toAddress: new TonWeb.utils.Address(walletAddress),
+          amount: TonWeb.utils.toNano(String(price)),
+          seqno: seqno,
+          payload: '',
+          sendMode: 3,
+      }).send);
+    }
 
     return true;
     
