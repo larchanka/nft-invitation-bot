@@ -44,7 +44,7 @@ const initDbs = async () => {
     const usersReq = await db.query('select * from users');
 
     if (usersReq?.rowCount === 0) {
-      await pdb.query(`INSERT INTO users (
+      await db.query(`INSERT INTO users (
         tgId, 
         invitedByTgId, 
         createdAt, 
