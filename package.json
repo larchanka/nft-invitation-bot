@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server --trace-warnings",
     "prod": "pm2 start server.js",
+    "stop": "pm2 stop 0 && pm2 delete 0",
     "unused": "find-unused-exports"
   },
   "author": "",
