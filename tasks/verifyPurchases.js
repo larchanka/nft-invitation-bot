@@ -7,10 +7,8 @@ const verifyPurchases = async (bot, repeat = true) => {
     const pdb = new Pool();
     const now = new Date().getTime();
     const uDataReq = await pdb.query(`select * from users where expiresAt>='${now}'`);
-    await pdb.end();
     
     uDataReq.rows.forEach(async (user) => {
-      const pdb = new Pool();
       const purchasesReq = await pdb.query(
         `select distinct tgid, initedByTgId, createdat, payed from purchases 
           where initedByTgId='${user.tgid}' 
@@ -18,7 +16,6 @@ const verifyPurchases = async (bot, repeat = true) => {
           and createdAt<='${Number(user.expiresat)}'
           and createdAt>'${Number(user.expiresat) - (userExpiration * 24 * 60 * 60 * 1000)}'`
       );
-      await pdb.end();
       const totalPurchases = purchasesReq.rowCount;
 
       if(totalPurchases >= amountToBuyForReward) {
@@ -26,15 +23,15 @@ const verifyPurchases = async (bot, repeat = true) => {
 
         if (sendBack) {
           purchasesReq.rows.forEach(async purchase => {
-            const pdb = new Pool();
             await pdb.query(`update purchases set payed='1' where createdAt='${purchase.createdat}' and initedByTgId='${user.tgid}'`);
-            await pdb.end();
           });
         }
 
         await bot.sendMessage(user.tgid, 'You have a return ' + price + ' TON');
       }
-    })
+    });
+
+    await pdb.end();
 
   } catch(e) {
     console.log('verifyPurchases.js Error', e)

@@ -11,7 +11,6 @@
     "unused": "find-unused-exports"
   },
   "author": "",
-  "license": "BSD",
   "dependencies": {
     "dotenv": "^16.0.1",
     "forever": "^4.0.3",
