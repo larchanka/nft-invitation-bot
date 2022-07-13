@@ -1,6 +1,6 @@
 const englishLang = {
   invite: '➕ Invite',
-  nft: '🎑 NFT',
+  nft: '🎑 Our NFT',
   nftBuy: '🎑 Buy NFT',
   ru: 'Русский',
   en: 'English',

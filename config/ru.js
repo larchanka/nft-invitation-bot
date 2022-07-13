@@ -1,6 +1,6 @@
 const russianLang = {
   invite: '➕ Инвайты',
-  nft: '🎑 NFT',
+  nft: '🎑 Наши NFT',
   nftBuy: '🎑 Купить NFT',
   ru: 'Русский',
   en: 'English',
