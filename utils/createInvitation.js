@@ -25,7 +25,7 @@ const createInvitation = async (fromId, toId) => {
       ${toId},
       ${new Date().getTime()},
       ${new Date().getTime() + 7 * 24 * 60 * 60 * 1000},
-      ''
+      NULL,
     )`);
     
     await pdb.query(`
