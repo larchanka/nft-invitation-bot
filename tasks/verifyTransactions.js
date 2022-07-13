@@ -6,7 +6,11 @@ const sendNft = require('../utils/sendNft');
 
 const verifyTransactions = async (bot, repeat = true) => {
   try {
-    const transactionsReq = await fetch(`${process.env.TONCENTER_BASE}getTransactions?address=${process.env.OWNER}&limit=10&to_lt=0&archival=false`);
+    const transactionsReq = await fetch(`${process.env.TONCENTER_BASE}getTransactions?address=${process.env.OWNER}&limit=10&to_lt=0&archival=false`, {
+      agent: new https.Agent({
+        rejectUnauthorized: false,
+      })
+    });
     const transactionsList = await transactionsReq.json();
 
     if (transactionsList?.result) {
