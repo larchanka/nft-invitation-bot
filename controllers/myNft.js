@@ -1,5 +1,6 @@
 const { Pool } = require("pg");
 const { nft } = require("../config/en");
+const generatePreviewUrl = require("../utils/generatePreviewUrl");
 const getLanguage = require("../utils/getLanguage");
 const getUserNfts = require("../utils/getUserNfts");
 
@@ -26,7 +27,7 @@ const myNftController = (bot, user) => async (msg) => {
     if (showNfts.length) {
       bot.sendMediaGroup(chatId, showNfts.splice(0,10).map(nft => ({
         type: 'photo',
-        media: 'https://www.meetup.com/_next/image/?url=https%3A%2F%2Fsecure-content.meetupstatic.com%2Fimages%2Fclassic-events%2F505421614%2F676x380.webp&w=3840&q=75', // nft.image,
+        media: generatePreviewUrl(nft.image),
         caption: nft.name,
       })));
     } else {

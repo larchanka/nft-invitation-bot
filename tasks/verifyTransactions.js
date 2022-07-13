@@ -1,6 +1,7 @@
 const { Pool } = require('pg');
 const TonWeb = require('tonweb');
 const { price, userExpiration, collectionParams } = require('../config');
+const generatePreviewUrl = require('../utils/generatePreviewUrl');
 const sendNft = require('../utils/sendNft');
 
 const verifyTransactions = async (bot, repeat = true) => {
@@ -46,7 +47,7 @@ const verifyTransactions = async (bot, repeat = true) => {
                 await pdb.query(`insert into purchases (tgid, initedByTgId, createdAt, payed) values (${tgId}, ${invitedByTgId}, ${new Date().getTime()}, 0)`);
                 await pdb.end();
 
-                bot.sendPhoto(uReq.rows[0].tgid, nftData.metadata.image, {
+                bot.sendPhoto(uReq.rows[0].tgid, generatePreviewUrl(nftData.metadata.image), {
                   caption: 'You just purchased this NFT',
                 });
               }
