@@ -18,9 +18,9 @@ const verifyPurchases = async (bot, repeat = true) => {
           and createdAt<='${Number(user.expiresat)}'
           and createdAt>'${Number(user.expiresat) - (userExpiration * 24 * 60 * 60 * 1000)}'`
       );
-      console.log(1)
       await pdb.end();
       const totalPurchases = purchasesReq.rowCount;
+      console.log(totalPurchases)
 
       if(totalPurchases >= amountToBuyForReward) {
         console.log(2);
