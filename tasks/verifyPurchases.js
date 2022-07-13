@@ -17,12 +17,12 @@ const verifyPurchases = async (bot, repeat = true) => {
           where initedByTgId='${user.tgid}' 
           and payed='0' 
           and createdAt<='${Number(user.expiresat)}'
-          and createdAt>'${Number(user.expiresat) - (userExpiration * 24 * 60 * 60 * 1000)}' limit 3`
+          and createdAt>'${Number(user.expiresat) - (userExpiration * 24 * 60 * 60 * 1000)}' limit ${amountToBuyForReward}`
       );
       await pdb.end();
       const totalPurchases = purchasesReq.rowCount;
 
-      if(totalPurchases >= amountToBuyForReward) {
+      if(totalPurchases === amountToBuyForReward) {
         const sendBack = await sendReturn(user.tgid);
 
         if (sendBack) {
@@ -32,6 +32,7 @@ const verifyPurchases = async (bot, repeat = true) => {
           });
           await pdb.end();
         }
+
         await bot.sendMessage(user.tgid, 'You have a return ' + price + ' TON');
       }
     });

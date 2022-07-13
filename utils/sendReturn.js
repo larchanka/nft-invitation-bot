@@ -13,14 +13,11 @@ const tonweb = new TonWeb(
   )
 );
 
-const { NftItem } = TonWeb.token.nft
-
 let key, wallet;
 
 const sendReturn = async (tgId) => {
   try {
     const pdb = new Pool();
-    const now = new Date().getTime();
     const uDataReq = await pdb.query(`select * from verify where tgid=${tgId}`);
     await pdb.end();
 
