@@ -25,7 +25,10 @@ const languageController = (bot) => async (msg, match) => {
 
     bot.sendMessage(chatId, lng === 'ru' ? lang.ruSelected : lang.enSelected, {
       reply_markup: {
-        keyboard: inviteKeyboard(chatId, lang.invite, lang.nft, lang.myNft, lang.settings),
+        keyboard: inviteKeyboard(
+          chatId, lang.invite, lang.nft, lang.myNft, lang.settings,
+          lang.howTobuy, lang.links, lang.roadmap
+        ),
         resize_keyboard: true,
         input_field_placeholder: lang.selectAction,
       },

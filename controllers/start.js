@@ -33,7 +33,10 @@ const startController = (bot, user) => async (msg) => {
 
   return bot.sendMessage(chatId, lang.selectAction, {
     reply_markup: {
-      keyboard: inviteKeyboard(chatId, lang.invite, lang.nft, lang.myNft, lang.settings),
+      keyboard: inviteKeyboard(
+        chatId, lang.invite, lang.nft, lang.myNft, lang.settings,
+        lang.howTobuy, lang.links, lang.roadmap
+      ),
       resize_keyboard: true,
       input_field_placeholder: lang.selectAction,
     },

@@ -29,6 +29,12 @@ bot.onText(new RegExp(`^(${englishLang.myNft}|${russianLang.myNft})`), validateA
 
 bot.onText(new RegExp(`^(${englishLang.settings}|${russianLang.settings})`), validateAccess(bot, settingsController));
 
+bot.onText(new RegExp(`^(${englishLang.links}|${russianLang.links})`), validateAccess(bot, settingsController));
+
+bot.onText(new RegExp(`^(${englishLang.howTobuy}|${russianLang.howTobuy})`), validateAccess(bot, settingsController));
+
+bot.onText(new RegExp(`^(${englishLang.roadmap}|${russianLang.roadmap})`), validateAccess(bot, settingsController));
+
 bot.onText(new RegExp('^(' + ru + '|' + en + ')'), validateAccess(bot, languageController));
 
 bot.onText(new RegExp('^[a-zA-Z0-9-_]{48}$'), validateAccess(bot, walletController));
