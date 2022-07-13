@@ -13,7 +13,7 @@ const inviteKeyboard = (userId, invite, nft, myNft, settings, howToBuy, links, r
     [
       {text: howToBuy},
       {text: links},
-      {text: roadmap},
+      // {text: roadmap},
     ]
   ]
 }
