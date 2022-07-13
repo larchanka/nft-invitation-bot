@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 const { invite, ru, en, nft, nftBuy, myNft, settings, language, wallet } = require('./config/actions');
 const validateAccess = require('./utils/validateAccess');
 const bot = require('./connections/telegram');
