@@ -7,7 +7,8 @@ const inviteController = (bot, user) => async (msg, replyMsgId) => {
   const lang = getLanguage(user);
 
   try {
-    console.log(0)
+    console.log(`select * from invitations where fromtgid='${chatId}' and activatedat=''`)
+    console.log(`select * from users where tgid='${chatId}'`)
     const pdb = new Pool();
     const invitationsReq = await pdb.query(`select * from invitations where fromtgid='${chatId}' and activatedat=''`);
     const userReq = await pdb.query(`select * from users where tgid='${chatId}'`);
