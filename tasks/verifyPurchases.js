@@ -7,11 +7,14 @@ const verifyPurchases = async (bot, repeat = true) => {
     const pdb = new Pool();
     const now = new Date().getTime();
     const uDataReq = await pdb.query(`select * from users where expiresAt>='${now}'`);
-    console.log(`select * from users where expiresAt>='${now}'`)
+    
     await pdb.end();
     
     uDataReq.rows.forEach(async (user) => {
       const pdb = new Pool();
+      console.log({
+        user
+      })
       const purchasesReq = await pdb.query(
         `select distinct tgid, initedByTgId, createdat, payed from purchases 
           where initedByTgId='${user.tgid}' 
