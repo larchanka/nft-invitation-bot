@@ -51,6 +51,23 @@ If they will buy NFT during a week, you will receive you NFT's price back
   howTobuy: '💎 How To Buy TON?',
   links: '🌍 Links',
   roadmap: '🗺 RoadMap',
+  linksContent: `
+site - https://credu.io
+telegram RU - https://t.me/nftcreduru
+telegram EN - https://t.me/nftcreduen
+  `,
+  howTobuyContent: `
+How to buy TON?
+
+1) Download and istall wallet Tonkeeper (https://tonkeeper.com/)
+2) Now you can buy TON using @wallet or @CryptoBot
+3) You can also use respectable market, i.e. bestchange (select pair with TON Coin and just exchange).
+  `,
+  roadmapContent: `
+Start of NFT sale - July 8, 2022
+Start of private club - September 8, 2022
+Secret NFT AirDrop - November 8, 2022
+  `,
 };
 
 module.exports = englishLang;

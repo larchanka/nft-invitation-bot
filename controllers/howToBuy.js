@@ -1,11 +1,11 @@
 const getLanguage = require('../utils/getLanguage');
 const inviteKeyboard = require('../utils/inviteKeyboard');
 
-const linksController = (bot, user) => async (msg) => {
+const howToBuyController = (bot, user) => async (msg) => {
   const chatId = msg.chat.id;
   const lang = getLanguage(user);
 
-  bot.sendMessage(chatId, lang.linksContent, {
+  bot.sendMessage(chatId, lang.howTobuyContent, {
     reply_markup: {
       keyboard: inviteKeyboard(
         chatId, lang.invite, lang.nft, lang.myNft, lang.settings,
@@ -17,4 +17,4 @@ const linksController = (bot, user) => async (msg) => {
   });
 };
 
-module.exports = linksController;
+module.exports = howToBuyController;

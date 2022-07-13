@@ -17,6 +17,9 @@ const deleteInvitationController = require('./controllers/deleteInvitation');
 const verifyPurchases = require('./tasks/verifyPurchases');
 const englishLang = require('./config/en');
 const russianLang = require('./config/ru');
+const linksController = require('./controllers/links');
+const howToBuyController = require('./controllers/howToBuy');
+const roadmapController = require('./controllers/roadmap');
 
 
 bot.onText(/^\/start/, validateAccess(bot, startController));
@@ -29,11 +32,11 @@ bot.onText(new RegExp(`^(${englishLang.myNft}|${russianLang.myNft})`), validateA
 
 bot.onText(new RegExp(`^(${englishLang.settings}|${russianLang.settings})`), validateAccess(bot, settingsController));
 
-bot.onText(new RegExp(`^(${englishLang.links}|${russianLang.links})`), validateAccess(bot, settingsController));
+bot.onText(new RegExp(`^(${englishLang.links}|${russianLang.links})`), validateAccess(bot, linksController));
 
-bot.onText(new RegExp(`^(${englishLang.howTobuy}|${russianLang.howTobuy})`), validateAccess(bot, settingsController));
+bot.onText(new RegExp(`^(${englishLang.howTobuy}|${russianLang.howTobuy})`), validateAccess(bot, howToBuyController));
 
-bot.onText(new RegExp(`^(${englishLang.roadmap}|${russianLang.roadmap})`), validateAccess(bot, settingsController));
+bot.onText(new RegExp(`^(${englishLang.roadmap}|${russianLang.roadmap})`), validateAccess(bot, roadmapController));
 
 bot.onText(new RegExp('^(' + ru + '|' + en + ')'), validateAccess(bot, languageController));
 
