@@ -13,6 +13,11 @@ const inviteController = (bot, user) => async (msg, replyMsgId) => {
     const userReq = await pdb.query(`select * from users where tgid=${chatId}`);
     await pdb.end();
 
+    console.log({
+      userReq,
+      invitationsReq,
+    })
+
     const invitations = invitationsReq?.rows || [];
     const currentInvitations = invitations.length ? lang.activeInvites : lang.noActiveInvites;
     const userInvitations = userReq?.rows[0]?.invitations;
