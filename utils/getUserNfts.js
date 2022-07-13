@@ -9,9 +9,10 @@ const getUserNfts = async (address) => {
     `${process.env.TON_API}v1/nft/getItemsByOwnerAddress?account=${address}`);
 
     const { nft_items } = await dataReq.json();
+    const filteredItems = nft_items
+    .filter(nft => nft.collection_address === colelctionAddress.toString(false))
 
-    return nft_items
-      .filter(nft => nft.collection_address === colelctionAddress.toString(false))
+    return filteredItems
       .map((nft, idx) => {
         return {
           image: nft?.metadata?.image,

@@ -10,11 +10,13 @@ const inviteController = (bot, user) => async (msg, replyMsgId) => {
     const pdb = new Pool();
 
     const invitationsReq = await pdb.query(`select * from invitations where fromtgid=${chatId} and activatedat=''`);
+    const userReq = await pdb.query(`select * from users where tgid=${chatId}`);
     await pdb.end();
+
     const invitations = invitationsReq?.rows || [];
     const currentInvitations = invitations.length ? lang.activeInvites : lang.noActiveInvites;
+    const userInvitations = userReq?.rows[0]?.invitations;
     
-
     const currentinvitationsList = [];
     const currentinvitationsBtns = [];
     
@@ -28,7 +30,7 @@ const inviteController = (bot, user) => async (msg, replyMsgId) => {
       })
     }
 
-    const messageTxt = lang.yourInvitations(invitations, isReply, currentInvitations, currentinvitationsList);
+    const messageTxt = lang.yourInvitations(userInvitations, isReply, currentInvitations, currentinvitationsList);
     const messageOptions = {
       parse_mode: 'HTML',
       reply_markup: currentinvitationsBtns.length ? {
