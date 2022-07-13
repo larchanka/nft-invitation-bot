@@ -43,6 +43,11 @@ ${invitations > 0 ? '-----------\n\n<i>Send me username of the user you want to 
   wallet: 'Wallet Address',
   mainAction: 'Start from teh beginning',
   settings: 'Settings',
+  congrats: `
+Congratulations! 
+Now you have 3 more invitations, which you can use to invite your friends.
+If they will buy NFT during a week, you will receive you NFT's price back
+  `
 };
 
 module.exports = englishLang;

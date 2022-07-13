@@ -4,6 +4,7 @@ const https = require('https');
 const { price, userExpiration, collectionParams } = require('../config');
 const generatePreviewUrl = require('../utils/generatePreviewUrl');
 const sendNft = require('../utils/sendNft');
+const getLanguage = require('../utils/getLanguage');
 
 const verifyTransactions = async (bot, repeat = true) => {
   try {
@@ -48,12 +49,13 @@ const verifyTransactions = async (bot, repeat = true) => {
 
                 const uDataReq = await pdb.query(`select * from users where tgid='${tgId}' limit 1`);
                 const invitedByTgId = uDataReq?.rows[0].invitedbytgid;
+                const lang = getLanguage(uDataReq?.rows[0]?.lang);
                 await pdb.query(`update users set invitations=invitations+3, purchases=purchases+1, expiresAt=${new Date().getTime() + userExpiration * 24 * 60 * 60 * 1000} where tgid='${tgId}'`);
                 await pdb.query(`insert into purchases (tgid, initedByTgId, createdAt, payed) values (${tgId}, ${invitedByTgId}, ${new Date().getTime()}, 0)`);
                 await pdb.end();
 
                 bot.sendPhoto(uReq.rows[0].tgid, generatePreviewUrl(nftData.metadata.image), {
-                  caption: 'You just purchased this NFT',
+                  caption: lang.congrats,
                 });
               }
             }
