@@ -9,7 +9,6 @@ const verifyPurchases = async (bot, repeat = true) => {
     const uDataReq = await pdb.query(`select * from users where expiresAt>='${now}'`);
     
     uDataReq.rows.forEach(async (user) => {
-      console.log(1);
       const purchasesReq = await pdb.query(
         `select distinct tgid, initedByTgId, createdat, payed from purchases 
           where initedByTgId='${user.tgid}' 
@@ -17,6 +16,9 @@ const verifyPurchases = async (bot, repeat = true) => {
           and createdAt<='${Number(user.expiresat)}'
           and createdAt>'${Number(user.expiresat) - (userExpiration * 24 * 60 * 60 * 1000)}'`
       );
+      console.log({
+        purchasesReq
+      });
       const totalPurchases = purchasesReq.rowCount;
 
       if(totalPurchases >= amountToBuyForReward) {
