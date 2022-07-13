@@ -44,7 +44,7 @@ WHERE tgid=${fromId};`)
       ${toId},
       ${new Date().getTime()},
       ${new Date().getTime() + 7 * 24 * 60 * 60 * 1000},
-      NULL,
+      NULL
     )`);
     
     await pdb.query(`
