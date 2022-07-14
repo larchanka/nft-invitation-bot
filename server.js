@@ -22,8 +22,6 @@ const howToBuyController = require('./controllers/howToBuy');
 const roadmapController = require('./controllers/roadmap');
 
 
-bot.onText(/^\/start/, validateAccess(bot, startController));
-
 bot.onText(new RegExp(`^(${englishLang.invite}|${russianLang.invite})`), validateAccess(bot, inviteController));
 
 bot.onText(new RegExp(`^(${englishLang.nft}|${russianLang.nft})`), validateAccess(bot, nftCheckConfroller));

@@ -1,6 +1,8 @@
 const { Pool } = require('pg');
 const createUserFromInvitation = require('./createUserFromInvitation');
 
+const inProcess = {};
+
 const validateAccess = (bot, cb, showMessage = true) => async (msg, match) => {
   const chatId = msg.chat.id;
 
@@ -13,7 +15,10 @@ const validateAccess = (bot, cb, showMessage = true) => async (msg, match) => {
     const invitedUser = inviteRes?.rows[0];
 
     if (!authUser && invitedUser) {
-      authUser = await createUserFromInvitation(chatId, invitedUser.fromtgid);
+      if (!inProcess[chatId]) {
+        inProcess[chatId] = true;
+        authUser = await createUserFromInvitation(chatId, invitedUser.fromtgid);
+      }
     }
 
     if (authUser) {
