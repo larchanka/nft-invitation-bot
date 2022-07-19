@@ -9,9 +9,6 @@ const verifyPurchases = async (bot, repeat = true) => {
     const now = new Date().getTime();
     const uDataReq = await pdb.query(`select * from users where expiresAt>='${now}'`);
 
-    console.log({
-      uDataReq: uDataReq.rows
-    })
     
     await pdb.end();
     
@@ -52,7 +49,7 @@ const verifyPurchases = async (bot, repeat = true) => {
             and createdAt<='${Number(user.expiresat)}'`
         );
         await pdb.end();
-console.log(purchasesReq.rows)
+
         purchasesReq.rows.forEach(
           async (purchase) => {
             const sendBack = await sendReturn(user.tgid, reward);
