@@ -54,6 +54,7 @@ const verifyPurchases = async (bot, repeat = true) => {
             const sendBack = await sendReturn(user.tgid, reward);
 
             if (sendBack) {
+              console.log(lang.reward(reward));
               const pdb = new Pool();
               await pdb.query(`update purchases set payed='1' where createdAt='${purchase.createdat}' and initedByTgId='${user.tgid}'`);
               await pdb.end();
