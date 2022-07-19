@@ -8,6 +8,10 @@ const verifyPurchases = async (bot, repeat = true) => {
     const pdb = new Pool();
     const now = new Date().getTime();
     const uDataReq = await pdb.query(`select * from users where expiresAt>='${now}'`);
+
+    console.log({
+      uDataReq: uDataReq.rows
+    })
     
     await pdb.end();
     
