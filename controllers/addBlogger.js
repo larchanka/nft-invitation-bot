@@ -7,7 +7,7 @@ const addBloggerController = (bot, _user) => async (msg, match) => {
 
   try {
 
-    if (chatId === process.env.OWNER) {
+    if (Number(chatId) === Number(process.env.DEFAULT_TG_ACCOUNT)) {
       const userId = await getUserByLink(user);
       const pdb = new Pool();
       await pdb.query(`update users set level='2', invitations='${invitations}' where tgid=${userId}`);
