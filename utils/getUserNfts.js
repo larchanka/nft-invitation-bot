@@ -1,4 +1,5 @@
 const Tonweb = require('tonweb');
+const https = require('https');
 
 const getUserNfts = async (address) => {
   try {
@@ -6,9 +7,14 @@ const getUserNfts = async (address) => {
 
     
     const dataReq = await fetch(
-    `${process.env.TON_API}v1/nft/getItemsByOwnerAddress?account=${address}`);
+    `${process.env.TON_API}v1/nft/getItemsByOwnerAddress?account=${address}`, {
+      agent: new https.Agent({
+        rejectUnauthorized: false,
+      })
+    });
 
     const { nft_items } = await dataReq.json();
+
     const filteredItems = nft_items
     .filter(nft => nft.collection_address === colelctionAddress.toString(false))
 

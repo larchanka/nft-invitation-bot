@@ -15,7 +15,7 @@ const tonweb = new TonWeb(
 
 let key, wallet;
 
-const sendReturn = async (tgId) => {
+const sendReturn = async (tgId, reward) => {
   try {
     const pdb = new Pool();
     const uDataReq = await pdb.query(`select * from verify where tgid=${tgId}`);
@@ -40,14 +40,16 @@ const sendReturn = async (tgId) => {
         wallet.methods.transfer({
           secretKey: key.secretKey,
           toAddress: new TonWeb.utils.Address(walletAddress),
-          amount: TonWeb.utils.toNano(String(price)),
+          amount: TonWeb.utils.toNano(String(reward)),
           seqno: seqno,
           payload: '',
           sendMode: 3,
       }).send);
+
+      return true;
     }
 
-    return true;
+    return false;
     
   } catch(e) {
     console.log('sendNft.js Error', e);

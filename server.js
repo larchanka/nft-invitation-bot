@@ -20,6 +20,8 @@ const russianLang = require('./config/ru');
 const linksController = require('./controllers/links');
 const howToBuyController = require('./controllers/howToBuy');
 const roadmapController = require('./controllers/roadmap');
+const extendLevel2 = require('./tasks/extendLevel2');
+const addBloggerController = require('./controllers/addBlogger');
 
 
 bot.onText(new RegExp(`^(${englishLang.invite}|${russianLang.invite})`), validateAccess(bot, inviteController));
@@ -37,6 +39,8 @@ bot.onText(new RegExp(`^(${englishLang.howTobuy}|${russianLang.howTobuy})`), val
 bot.onText(new RegExp(`^(${englishLang.roadmap}|${russianLang.roadmap})`), validateAccess(bot, roadmapController));
 
 bot.onText(new RegExp('^(' + ru + '|' + en + ')'), validateAccess(bot, languageController));
+
+bot.onText(new RegExp('^/bl_([0-9]+) (\@|https:\/\/t.me\/)([a-zA-Z0-9-_]{3,})'), validateAccess(bot, addBloggerController))
 
 bot.onText(new RegExp('^[a-zA-Z0-9-_]{48}$'), validateAccess(bot, walletController));
 
@@ -73,4 +77,4 @@ bot.on("callback_query", (callbackQuery) => {
 
 verifyTransactions(bot);
 verifyPurchases(bot);
-
+extendLevel2(bot);

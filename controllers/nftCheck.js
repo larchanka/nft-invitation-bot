@@ -1,4 +1,5 @@
 const { Pool } = require('pg');
+const { price, nextPrice } = require('../config');
 const buyNftKeyboard = require('../utils/buyNftKeyboard');
 const getLanguage = require('../utils/getLanguage');
 const tonNftList = require('../utils/getNftList');
@@ -26,7 +27,7 @@ const nftCheckConfroller = (bot, user) => async (msg) => {
     
     bot.sendMessage(
       chatId,
-      availableList.length > 0 ? lang.weHave(availableList.length) : lang.noFreeNft, {
+      availableList.length > 0 ? lang.weHave(availableList.length, price, nextPrice) : lang.noFreeNft, {
         reply_markup: {
           inline_keyboard: buyNftKeyboard(chatId, lang.nftBuy),
         },

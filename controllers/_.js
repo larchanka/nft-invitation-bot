@@ -1,40 +1,9 @@
-const { TelegramClient } = require("telegram");
-const { StringSession } = require("telegram/sessions");
 const input = require("input");
-const { Api } = require("telegram/tl");
 
 const createInvitation = require("../utils/createInvitation");
 const getLanguage = require("../utils/getLanguage");
+const getUserByLink = require("../utils/getUserByLink");
 const startController = require("./start");
-//bot.onText(/^\/start/, validateAccess(bot, startController));
-const getUserByLink = async (username) => {
-  const apiId = 185045;
-  const apiHash = "8a12499d57545e35da5e638b38b90667";
-
-  try {
-    const client = new TelegramClient(new StringSession(""), apiId, apiHash, {
-      connectionRetries: 5,
-    });
-    await client.start({
-      botAuthToken: process.env.BOT_KEY,
-    });
-  
-    const result = await client.invoke(
-      new Api.users.GetFullUser({
-        id: username,
-      })
-    );
-
-   const userTgId = Number(result?.fullUser?.id?.value);
-
-   return userTgId;
-
-  } catch (e) {
-    console.log('Cannot get user', username, e.toString())
-
-    return undefined;
-  }
-}
 
 const generalMessageController = (bot, user) => async (msg) => {
   const userLinkRegex = new RegExp('^(\@|https://t.me/)([a-zA-Z0-9-_]{3,})$');
@@ -75,7 +44,7 @@ const generalMessageController = (bot, user) => async (msg) => {
                   [
                     {
                       text: lang.forward,
-                      switch_inline_query: `@${botInfo.username}\n\n${lang.invitation}`
+                      switch_inline_query: `${lang.invitation}`
                     }
                   ]
                 ],

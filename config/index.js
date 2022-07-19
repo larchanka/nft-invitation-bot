@@ -1,5 +1,6 @@
 const config = {
   price: Number(process.env.NFT_PRICE),
+  nextPrice: 100,
   userExpiration: 7,
   amountToBuyForReward: 3,
   // collectionParams: (walletAddress, NftItem) => ({

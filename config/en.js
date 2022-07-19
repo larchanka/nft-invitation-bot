@@ -21,7 +21,7 @@ with this description\n
   noNft: 'You don\'t have NFT yet',
   yourNft: 'These are your NFTs',
   sendWallet: 'Send me your TON Wallet address',
-  weHave: (number) => (`We have ${number} available`),
+  weHave: (number, price, nextPrice) => (`We have ${number} available for ${price} TON\n Next 111 NFT will be cost ${nextPrice} TON`),
   noFreeNft: 'No NFTs are available',
   selectLang: 'Select language | Выберите язык',
   selectAction: 'Select action',
@@ -44,9 +44,10 @@ ${invitations > 0 ? '-----------\n\n<i>Send me username of the user you want to 
   mainAction: 'Start from teh beginning',
   settings: 'Settings',
   congrats: `
-Congratulations! 
+Congratulations!
+You are a Crypto-legionnaire now.
 Now you have 3 more invitations, which you can use to invite your friends.
-If they will buy NFT during a week, you will receive you NFT's price back
+If they will buy NFT during a week, you will receive you NFT's price back.
   `,
   howTobuy: '💎 How To Buy TON?',
   links: '🌍 Links',
@@ -68,6 +69,7 @@ Start of NFT sale - July 8, 2022
 Start of private club - September 8, 2022
 Secret NFT AirDrop - November 8, 2022
   `,
+  reward: (number) => `You have a return ${number} TON`,
 };
 
 module.exports = englishLang;
