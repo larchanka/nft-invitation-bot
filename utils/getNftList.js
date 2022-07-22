@@ -18,7 +18,7 @@ const getNftList = async () => {
     );
     const { nft_items } = await nftCollectionReq.json();
 
-    return nft_items.splice(0,110)?.filter(
+    return nft_items.splice(0,111)?.filter(
       ({ owner: { address } }) => new TonWeb.Address(address).toString(true, true, true) === process.env.OWNER
     ).map(
       ({ index, address }) => ({
