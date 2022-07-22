@@ -25,11 +25,6 @@ const myNftController = (bot, user) => async (msg) => {
 
     const showNfts = nfts.filter(nft => nft.image);
     if (showNfts.length) {
-      console.log(showNfts.splice(0,10).map(nft => ({
-        type: 'photo',
-        media: generatePreviewUrl(nft.image),
-        caption: nft.name,
-      })));
       bot.sendMediaGroup(chatId, showNfts.splice(0,10).map(nft => ({
         type: 'photo',
         media: generatePreviewUrl(nft.image),
