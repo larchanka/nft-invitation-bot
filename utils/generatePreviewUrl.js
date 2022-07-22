@@ -1,3 +1,3 @@
-const generatePreviewUrl = (url = '', test = false) => test ? url.replace('/images', '/previews').replace('.png', '.jpg') : url;
+const generatePreviewUrl = (url) => url?.replace('/images', '/previews').replace('.png', '.jpg');
 
 module.exports = generatePreviewUrl;
