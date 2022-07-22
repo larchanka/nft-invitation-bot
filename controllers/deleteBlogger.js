@@ -6,12 +6,18 @@ const deleteBloggerController = (bot, _user) => async (msg, match) => {
   const [, _, user] = match;
 
   try {
-    const userId = await getUserByLink(user);
-    const pdb = new Pool();
-    await pdb.query(`update users set level='1', invitations='0' where tgid=${userId}`);
-    await pdb.end();
 
-    bot.sendMessage(chatId, `Блоггер @${user} удален`)
+    if (Number(chatId) === Number(process.env.DEFAULT_TG_ACCOUNT)) {
+      const userId = await getUserByLink(user);
+      const pdb = new Pool();
+      await pdb.query(`update users set level='1', invitations='0' where tgid=${userId}`);
+      await pdb.end();
+
+      bot.sendMessage(chatId, `Блоггер @${user} удален`);
+    } else {
+      bot.sendMessage(chatId, `Нет прав`);
+    }
+    
   } catch (e) {
     console.log('deleteBloggerController.js Error', e.toString());
   }
