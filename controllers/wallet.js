@@ -6,10 +6,10 @@ const walletController = (bot, user) => async (msg, match) => {
   const chatId = msg.chat.id;
   const lang = getLanguage(user);
 
+  const pdb = new Pool();
   const address = match[0];
 
   try {
-    const pdb = new Pool();
     await pdb.query(`DELETE FROM verify WHERE tgid=${chatId};`);
     await pdb.query(`INSERT INTO verify (
       tgid, 
@@ -30,13 +30,13 @@ const walletController = (bot, user) => async (msg, match) => {
       },
     });
 
-    await pdb.end();
-
   } catch(e) {
     console.log(e);
 
     return null;
   }
+
+  await pdb.end();
   
 };
 

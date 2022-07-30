@@ -5,9 +5,9 @@ const inProcess = {};
 
 const validateAccess = (bot, cb, showMessage = true) => async (msg, match) => {
   const chatId = msg.chat.id;
+  let pdb = new Pool();
 
   try {
-    let pdb = new Pool();
     const userRes = await pdb.query('select * from users where tgid=' + chatId + ' and banned!=1');
 
     let authUser = userRes?.rows[0];
@@ -28,10 +28,11 @@ const validateAccess = (bot, cb, showMessage = true) => async (msg, match) => {
         bot.sendMessage(chatId, 'You dont have access');
     }
 
-    await pdb.end();
   } catch(e) {
     console.log('createUserFromInvitation.js Error', e);
   }
+  
+  await pdb.end();
 };
 
 module.exports = validateAccess;

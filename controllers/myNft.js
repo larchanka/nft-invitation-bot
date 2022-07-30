@@ -7,12 +7,11 @@ const getUserNfts = require("../utils/getUserNfts");
 const myNftController = (bot, user) => async (msg) => {
   const chatId = msg.chat.id;
   const lang = getLanguage(user);
+  const pdb = new Pool();
 
   try {
-    const pdb = new Pool();
 
     const walletReq = await pdb.query(`select * from verify where tgid=${chatId}`);
-    await pdb.end();
 
     const wallet = walletReq?.rows[0]?.owner;
 
@@ -37,6 +36,7 @@ const myNftController = (bot, user) => async (msg) => {
   } catch(e) {
     console.log('myNftController.js Error', e.toString());
   }
+  await pdb.end();
 }
 
 module.exports = myNftController;

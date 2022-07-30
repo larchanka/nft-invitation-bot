@@ -1,9 +1,9 @@
 const { Pool } = require('pg');
 
 const initDbs = async () => {
+  const db = new Pool();
   try {
 
-    const db = new Pool();
     await db.query(`CREATE TABLE IF NOT EXISTS verify (
       tgid int8 NOT NULL, 
       "owner" text NULL, 
@@ -68,11 +68,11 @@ const initDbs = async () => {
         ''
       )`);
     }
-
-    await db.end()
   } catch(e) {
     console.log('postgres.js Error', { e });
   }
+
+  await db.end();
 }
 
 initDbs();

@@ -5,14 +5,14 @@ const inviteController = (bot, user) => async (msg, replyMsgId) => {
   const chatId = msg.chat.id;
   const isReply = typeof replyMsgId === 'number';
   const lang = getLanguage(user);
+  const pdb = new Pool();
 
   try {
     console.log(`select * from invitations where fromtgid='${chatId}' and activatedat=''`)
-    console.log(`select * from users where tgid='${chatId}'`)
-    const pdb = new Pool();
+    console.log(`select * from users where tgid='${chatId}'`);
+
     const invitationsReq = await pdb.query(`select * from invitations where fromtgid='${chatId}' and activatedat=NULL`);
     const userReq = await pdb.query(`select * from users where tgid='${chatId}'`);
-    await pdb.end();
 
     const invitations = invitationsReq?.rows || [];
     const currentInvitations = invitations.length ? lang.activeInvites : lang.noActiveInvites;
@@ -54,6 +54,7 @@ const inviteController = (bot, user) => async (msg, replyMsgId) => {
   } catch(e) {
     console.log('inviteController.js Error', e.toString())
   }
+  await pdb.end();
 };
 
 module.exports = inviteController;

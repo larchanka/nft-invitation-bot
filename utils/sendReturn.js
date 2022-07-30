@@ -16,10 +16,9 @@ const tonweb = new TonWeb(
 let key, wallet;
 
 const sendReturn = async (tgId, reward) => {
+  const pdb = new Pool();
   try {
-    const pdb = new Pool();
     const uDataReq = await pdb.query(`select * from verify where tgid=${tgId}`);
-    await pdb.end();
 
     const walletAddress = uDataReq?.rows[0]?.owner;
 
@@ -56,6 +55,7 @@ const sendReturn = async (tgId, reward) => {
 
     return false;
   }
+  await pdb.end();
 };
 
 module.exports = sendReturn;
