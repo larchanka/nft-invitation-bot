@@ -28,14 +28,21 @@ with this description\n
   walletSaved: 'TON wallet address saved',
   deleteInvite: (toTgId) => `Delete invite for ${toTgId}`,
   inviteTo: (totgid, expiresat) => `\n- to ${totgid}, expires at ${new Date(Number(expiresat)).toLocaleDateString()}`,
+  inviteAccepted: (totgid, purchases) => `\n- ${totgid}, purchased ${purchases} NFTs`,
   activeInvites: 'Your active invites:',
+  acceptedInvites: 'Your accepted invites:',
   noActiveInvites: 'You dont have active invites',
   yourInvitations: (invitations, isReply, currentInvitations, currentinvitationsList) => `
 You have ${Number(invitations) + (isReply ? 1 : 0)} invitations.
 
-${currentInvitations}${currentinvitationsList.join('')}
+${currentInvitations}${currentinvitationsList?.join('')}
 
 ${invitations > 0 ? '-----------\n\n<i>Send me username of the user you want to invite, i.e. `@super_user`</i>' : ''}
+  `,
+  yourAcceptedInvitations: (invitations, currentInvitations, currentinvitationsList) => `
+You have ${invitations} accepted invitations.
+
+${currentInvitations}
   `,
   somethingWrong: 'Something went wrong. Try again later!',
   whatToChange: 'What do you want to change',

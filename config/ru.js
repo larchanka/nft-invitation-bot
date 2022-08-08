@@ -14,7 +14,7 @@ const russianLang = {
   sendTonTo: (price, owner, randomText) => (`Пришлите <strong>${price}</strong> TON на адрес \n
 <code>${owner}</code>\n
 
-вот с таким описанием\n
+вот с таким комментарием\n
 <code>${randomText}</code>`),
   ruSelected: 'Вы выбрали русский язык',
   enSelected: 'You selected english language',
@@ -27,15 +27,22 @@ const russianLang = {
   selectAction: 'Выберите действие',
   walletSaved: 'Адрес кошелька TON сохранен',
   deleteInvite: (toTgId) => `Удалить прглашение для ${toTgId}`,
-  inviteTo: (totgid, expiresat) => `\n- для ${totgid}, истекает ${new Date(Number(expiresat)).toLocaleDateString()}`,
-  activeInvites: 'Ваши активные приглашения:',
+  inviteTo: (totgid, expiresat) => `\n- ${totgid}, конечная дата спецпредложения ${new Date(Number(expiresat)).toLocaleDateString()}`,
+  inviteAccepted: (totgid, purchases) => `\n- ${totgid}, купил(а) ${purchases} NFT`,
+  activeInvites: 'Ваши непринятые приглашения:',
+  acceptedInvites: 'Ваши принятые приглашения:',
   noActiveInvites: 'Вы никого не пригласили',
   yourInvitations: (invitations, isReply, currentInvitations, currentinvitationsList) => `
 У вас ${Number(invitations) + (isReply ? 1 : 0)} неиспользованных приглашений.
 
-${currentInvitations}${currentinvitationsList.join('')}
+${currentInvitations}${currentinvitationsList?.join('')}
 
 ${invitations > 0 ? '-----------\n\n<i>Пришлите мне имя пользователя, которого хотите пригласить. Например @username</i>' : ''}
+  `,
+  yourAcceptedInvitations: (invitations, currentInvitations, currentinvitationsList) => `
+У вас ${invitations} принятых приглашений.
+
+${currentInvitations}
   `,
   somethingWrong: 'Что-то пошло не так. Попробуйте позже.',
   whatToChange: 'Что вы хотите изменить.',
@@ -47,7 +54,8 @@ ${invitations > 0 ? '-----------\n\n<i>Пришлите мне имя польз
 Поздравляем! 
 Вы теперь стали Crypto-легионером.
 У вас появилось 3 инвайта, которыми вы можете поделиться с друзьями.
-Если в течение 7 дней с этого момента по 3 инвайтам будут покупки NFT Мы отправим 100% вашей стоимости NFT на ваш кошелек TON.
+Если в течение 7 дней с этого момента по 3 инвайтам будут покупки NFT, мы отправим 100% вашей стоимости NFT на ваш кошелек TON.
+8 сентября запуск сообщества и вы получите сообщение для подключения в боте.
   `,
   howTobuy: '💎 Как купить TON?',
   links: '🌍 Ссылки',

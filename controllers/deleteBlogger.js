@@ -1,5 +1,5 @@
 const { Pool } = require("pg");
-const getUserByLink = require("../utils/getUserByLink");
+const { getUserIdByLink } = require("../utils/getUserByLink");
 
 const deleteBloggerController = (bot, _user) => async (msg, match) => {
   const chatId = msg.chat.id;
@@ -9,7 +9,7 @@ const deleteBloggerController = (bot, _user) => async (msg, match) => {
   try {
 
     if (Number(chatId) === Number(process.env.DEFAULT_TG_ACCOUNT)) {
-      const userId = await getUserByLink(user);
+      const userId = await getUserIdByLink(user);
       await pdb.query(`update users set level='1', invitations='0' where tgid=${userId}`);
 
       bot.sendMessage(chatId, `Блоггер @${user} удален`);

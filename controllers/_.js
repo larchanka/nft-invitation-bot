@@ -2,7 +2,7 @@ const input = require("input");
 
 const createInvitation = require("../utils/createInvitation");
 const getLanguage = require("../utils/getLanguage");
-const getUserByLink = require("../utils/getUserByLink");
+const { getUserIdByLink } = require("../utils/getUserByLink");
 const startController = require("./start");
 
 const generalMessageController = (bot, user) => async (msg) => {
@@ -28,7 +28,7 @@ const generalMessageController = (bot, user) => async (msg) => {
       let userId;
 
       if (isUserLink[2]) {
-        userId = await getUserByLink(isUserLink[2]);
+        userId = await getUserIdByLink(isUserLink[2]);
       }
 
       if (user?.invitations > 0) {
